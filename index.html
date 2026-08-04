@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Harvest InnovateX OS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            
+            --bg-dark: #050811;
+            /* Classic Aero Glass Styling */
+            --aero-glass-bg: rgba(16, 28, 54, 0.45);
+            --aero-glass-surface: rgba(255, 255, 255, 0.08);
+            --aero-glass-border: rgba(0, 240, 255, 0.35);
+            --aero-glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(0, 240, 255, 0) 100%);
+            --cyan-accent: #00f0ff;
+            --magenta-accent: #ff0080;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --radius-main: 18px;
+            --radius-btn: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        /* Custom Windows Aero Glow Pointer */
+    body, html, button, a, .window-header, .taskbar-app {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="glow"><feGaussianBlur stdDeviation="1.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M4 4L12 28L17 17L28 12L4 4Z" fill="%23070913" stroke="%2300f0ff" stroke-width="2" filter="url(%23glow)"/></svg>'), auto !important;
+    }
+
+    /* Glowing Pointer for Hover States */
+    a:hover, button:hover, .taskbar-app:hover, .window-header:hover, .menu-item:hover {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M4 4L12 28L17 17L28 12L4 4Z" fill="%2300f0ff" stroke="%23ff0080" stroke-width="2" filter="url(%23glow)"/></svg>'), pointer !important;
+    }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        /* Boot Screen */
+        #bootScreen {
+            position: fixed;
+            inset: 0;
+            background: #030407;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #bootScreen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .boot-spinner {
+            width: 42px;
+            height: 42px;
+            border: 3px solid rgba(0, 240, 255, 0.15);
+            border-top-color: var(--cyan-accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .boot-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--text-primary);
+            text-shadow: 0 0 12px var(--cyan-accent);
+        }
+
+        /* Particle Background Canvas */
+        #wallpaperCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Desktop Workspace */
+        #workspace {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Wallpaper Mount Bays for School & Event Logos */
+        .wallpaper-logo-mount {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 210px;
+            height: 280px;
+            background: rgba(10, 18, 36, 0.35);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--aero-glass-border);
+            border-radius: 24px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .wallpaper-logo-mount::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: var(--aero-glass-shine);
+            pointer-events: none;
+        }
+        .wallpaper-logo-mount.left { left: 30px; }
+        .wallpaper-logo-mount.right { right: 30px; }
+
+        .logo-slot {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(0, 240, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+            position: relative;
+        }
+        .logo-slot img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        .logo-slot i {
+            font-size: 2.4rem;
+            color: var(--cyan-accent);
+            text-shadow: 0 0 12px var(--cyan-accent);
+        }
+        .logo-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+            text-align: center;
+        }
+        .logo-subtext {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        /* Large & Dynamic Aero Island */
+        #dynamicIsland {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 680px;
+            height: 64px;
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--aero-glass-border);
+            border-radius: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 1000;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            animation: islandGlow 5s infinite alternate;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        #dynamicIsland::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 36px;
+            background: var(--aero-glass-shine);
+            pointer-events: none;
+        }
+        @keyframes islandGlow {
+            0% { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.25); }
+            100% { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 0, 128, 0.35); }
+        }
+
+        .island-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+        }
+        .island-brand {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #fff;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+        }
+        .island-chip {
+            background: rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--cyan-accent);
+            letter-spacing: 0.5px;
+        }
+        .island-time {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 10px var(--cyan-accent);
+        }
+
+        /* Aero Glass Taskbar */
+        #taskbar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--aero-glass-border);
+            padding: 10px 16px;
+            border-radius: 26px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            max-width: 95vw;
+            transition: opacity 0.2s ease;
+        }
+        .taskbar-app {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .taskbar-app:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 240, 255, 0.25);
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 20px var(--cyan-accent);
+        }
+        .taskbar-app:active { transform: scale(0.92); }
+        .taskbar-app.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            width: 14px;
+            height: 4px;
+            background: var(--cyan-accent);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--cyan-accent);
+        }
+
+        /* Aero Glass Windows */
+        .os-window {
+            position: absolute;
+            width: 760px;
+            height: 520px;
+            background: rgba(12, 20, 40, 0.65);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--aero-glass-border);
+            border-radius: var(--radius-main);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translate3d(0, 0, 0) scale(0.95);
+            transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+            will-change: transform, opacity;
+            touch-action: none;
+        }
+        .os-window.open {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+        .os-window.minimized {
+            opacity: 0 !important;
+            transform: translate3d(0, 40px, 0) scale(0.9) !important;
+            pointer-events: none !important;
+        }
+        
+        .window-header {
+            height: 44px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border-bottom: 1px solid var(--aero-glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            cursor: move;
+            touch-action: none;
+        }
+        .window-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+        }
+        .window-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .window-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .window-btn:hover { transform: scale(1.2); }
+        .btn-minimize { background: #ffbd2e; box-shadow: 0 0 8px #ffbd2e; }
+        .btn-maximize { background: #27c93f; box-shadow: 0 0 8px #27c93f; }
+        .btn-close { background: #ff5f56; box-shadow: 0 0 8px #ff5f56; }
+
+        .window-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            color: var(--text-primary);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Event Cards */
+        .event-app-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .event-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+        }
+        .event-section h3 {
+            font-size: 0.92rem;
+            color: var(--cyan-accent);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .event-section p, .event-section ul {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .event-section ul { padding-left: 20px; }
+        .event-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .reg-btn, .brochure-link-btn {
+            flex: 1;
+            min-width: 170px;
+            padding: 12px 16px;
+            border-radius: var(--radius-btn);
+            text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .reg-btn {
+            background: linear-gradient(135deg, var(--cyan-accent), #0088ff);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        .brochure-link-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid var(--aero-glass-border);
+        }
+        .reg-btn:hover, .brochure-link-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        /* Right Click Context Menu */
+        #desktopContextMenu {
+            position: fixed;
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--aero-glass-border);
+            border-radius: 12px;
+            padding: 8px;
+            width: 180px;
+            z-index: 99999;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+        #desktopContextMenu.visible { display: block; }
+        .menu-item {
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-item:hover {
+            background: rgba(0, 240, 255, 0.25);
+            color: var(--cyan-accent);
+        }
+
+        /* Notification Toast */
+        #notificationContainer {
+            position: fixed;
+            top: 95px;
+            right: 25px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .notification-toast {
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--aero-glass-border);
+            border-left: 4px solid var(--cyan-accent);
+            padding: 12px 16px;
+            border-radius: 10px;
+            min-width: 240px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Mobile & Responsive Tweaks */
+        @media (max-width: 1100px) {
+            .wallpaper-logo-mount { display: none; }
+        }
+        @media (max-width: 768px) {
+            #dynamicIsland { width: 92vw; height: 56px; padding: 0 16px; }
+            .island-chip { display: none; }
+            .os-window {
+                width: 94vw !important;
+                height: 72vh !important;
+                left: 3vw !important;
+                top: 85px !important;
+            }
+            .event-actions { flex-direction: column; }
+            .reg-btn, .brochure-link-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Boot Loader -->
+    <div id="bootScreen">
+        <div class="boot-spinner"></div>
+        <div class="boot-title">STARTING INNOVATEX OS</div>
+    </div>
+
+    <!-- Canvas Particle Background -->
+    <canvas id="wallpaperCanvas"></canvas>
+
+    <!-- Desktop Workspace -->
+    <div id="workspace">
+        
+        <!-- Wallpaper Mounting Bays for Logos -->
+        <div class="wallpaper-logo-mount left">
+            <div class="logo-slot">
+                <i class="fa-solid fa-school"></i>
+                <!-- To replace with real image: <img src="school_logo.png" alt="School Logo"> -->
+            </div>
+            <div class="logo-label">School Logo</div>
+            <div class="logo-subtext">Host Institution</div>
+        </div>
+
+        <div class="wallpaper-logo-mount right">
+            <div class="logo-slot">
+                <i class="fa-solid fa-rocket"></i>
+                <!-- To replace with real image: <img src="event_logo.png" alt="Event Logo"> -->
+            </div>
+            <div class="logo-label">InnovateX 2026</div>
+            <div class="logo-subtext">Official Tech Fest</div>
+        </div>
+
+        <!-- Dynamic Aero Island -->
+        <div id="dynamicIsland">
+            <div class="island-section">
+                <div class="island-brand"><i class="fa-solid fa-atom" style="color: var(--cyan-accent);"></i> Harvest InnovateX</div>
+                <div class="island-chip">AERO ENGINE</div>
+            </div>
+            <div class="island-section">
+                <i class="fa-solid fa-wifi" style="color: var(--cyan-accent); font-size: 0.85rem;"></i>
+                <div style="width: 1px; height: 16px; background: rgba(255, 255, 255, 0.25);"></div>
+                <div class="island-time" id="islandClock">00:00:00 AM</div>
+            </div>
+        </div>
+
+        <div id="notificationContainer"></div>
+
+        <!-- Aero Taskbar -->
+        <div id="taskbar">
+            <div id="taskbarAppsContainer" style="display: flex; gap: 10px;">
+                <div class="taskbar-app" onclick="toggleApp('binary_blitz')" title="Binary Blitz"><i class="fa-solid fa-code"></i></div>
+                <div class="taskbar-app" onclick="toggleApp('canvas_clash')" title="Canvas Clash"><i class="fa-solid fa-palette"></i></div>
+                <div class="taskbar-app" onclick="toggleApp('scene_sync')" title="Scene Sync"><i class="fa-solid fa-video"></i></div>
+                <div class="taskbar-app" onclick="toggleApp('capital_core')" title="Capital Core"><i class="fa-solid fa-coins"></i></div>
+                <div class="taskbar-app" onclick="toggleApp('brochure')" title="Pamphlet"><i class="fa-solid fa-book-open"></i></div>
+                <div class="taskbar-app" onclick="toggleApp('credits')" title="Credits"><i class="fa-solid fa-award"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="desktopContextMenu">
+        <div class="menu-item" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i> Fullscreen</div>
+        <div class="menu-item" onclick="clearAllWindows()"><i class="fa-solid fa-window-minimize"></i> Minimize All</div>
+    </div>
+
+    <script>
+        /* Fast Boot Engine */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const bootScreen = document.getElementById('bootScreen');
+                if (bootScreen) bootScreen.classList.add('fade-out');
+            }, 300);
+        });
+
+        /* Background Canvas Particle Network */
+        const canvas = document.getElementById('wallpaperCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        let particles = [];
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                if (!canvas) return;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                const colors = ['rgba(0, 240, 255, 0.8)', 'rgba(255, 0, 128, 0.8)', 'rgba(0, 136, 255, 0.8)'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                if (!canvas) return;
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                if (!ctx) return;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        const particleCount = window.innerWidth < 768 ? 35 : 65;
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+        function animateWallpaper() {
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let dx = particles[i].x - particles[j].x;
+                        let dy = particles[i].y - particles[j].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 100)})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            requestAnimationFrame(animateWallpaper);
+        }
+        animateWallpaper();
+
+        /* Dynamic Island Clock */
+        function updateClock() {
+            const clockEl = document.getElementById('islandClock');
+            if (clockEl) clockEl.textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* Context Menu */
+        const contextMenu = document.getElementById('desktopContextMenu');
+        window.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            if (contextMenu) {
+                contextMenu.style.top = `${e.clientY}px`;
+                contextMenu.style.left = `${e.clientX}px`;
+                contextMenu.classList.add('visible');
+            }
+        });
+        window.addEventListener('click', () => {
+            if (contextMenu) contextMenu.classList.remove('visible');
+        });
+
+        function triggerNotification(title, msg) {
+            const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'notification-toast';
+            toast.innerHTML = `
+                <div style="font-weight:700; color:var(--cyan-accent); font-size:0.82rem; margin-bottom:2px;">${title}</div>
+                <div style="font-size:0.78rem; color:var(--text-secondary);">${msg}</div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.2s ease';
+                setTimeout(() => toast.remove(), 200);
+            }, 3000);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        /* Event Content Generator */
+        function createEventAppContent(aboutText, topics, problemStatements, brochurePdfUrl, registerFormUrl) {
+            return `
+                <div class="event-app-container">
+                    <section class="event-section">
+                        <h3><i class="fa-solid fa-circle-info"></i> Track Overview</h3>
+                        <p>${aboutText}</p>
+                    </section>
+                    
+                    <section class="event-section">
+                        <h3><i class="fa-solid fa-layer-group"></i> Domain Focus</h3>
+                        <ul>${topics.map(t => `<li>${t}</li>`).join('')}</ul>
+                    </section>
+                    
+                    <section class="event-section">
+                        <h3><i class="fa-solid fa-bolt"></i> Key Challenges</h3>
+                        <ul>${problemStatements.map(p => `<li>${p}</li>`).join('')}</ul>
+                    </section>
+
+                    <div class="event-actions">
+                        <a href="${brochurePdfUrl}" target="_blank" class="brochure-link-btn">
+                            <i class="fa-solid fa-file-pdf"></i> Domain Brochure
+                        </a>
+                        <a href="${registerFormUrl}" target="_blank" class="reg-btn">
+                            <i class="fa-solid fa-pen-to-square"></i> Domain Registration Form
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        const appData = {
+            binary_blitz: {
+                title: "Tech → Binary Blitz",
+                icon: "fa-code",
+                content: createEventAppContent(
+                    "Binary Blitz is our hackathon track focusing on software design, AI integrations, and high-performance system algorithms.",
+                    ["Low-Latency Systems", "Autonomous AI Agents", "Web Applications"],
+                    ["Build an automated distributed resource scheduler.", "Create a zero-trust multi-agent framework."],
+                    "Binary_Blitz_Brochure.pdf",
+                    "https://docs.google.com/forms/d/e/1FAIpQLSfBINARY_BLITZ_UNIQUE_FORM/viewform"
+                )
+            },
+            canvas_clash: {
+                title: "Design → Canvas Clash",
+                icon: "fa-palette",
+                content: createEventAppContent(
+                    "Canvas Clash tests UI/UX design, design systems, and responsive spatial interfaces.",
+                    ["Design Systems & Tokens", "Accessibility & Ergonomics", "3D Web Visuals"],
+                    ["Design a scalable real-time telemetry dashboard.", "Construct an accessible UI for spatial computing Interfaces."],
+                    "Canvas_Clash_Brochure.pdf",
+                    "https://docs.google.com/forms/d/e/1FAIpQLScCANVAS_CLASH_UNIQUE_FORM/viewform"
+                )
+            },
+            scene_sync: {
+                title: "Media → Scene Sync",
+                icon: "fa-video",
+                content: createEventAppContent(
+                    "Scene Sync challenges video editors, content strategists, and multimedia creators to produce motion visuals.",
+                    ["Dynamic Audio Sync", "Short Storytelling", "Brand Motion Design"],
+                    ["Construct a high-tempo 60-second cyberpunk product trailer.", "Produce an animation sequence for brand launch."],
+                    "Scene_Sync_Brochure.pdf",
+                    "https://docs.google.com/forms/d/e/1FAIpQLScSCENE_SYNC_UNIQUE_FORM/viewform"
+                )
+            },
+            capital_core: {
+                title: "Finance → Capital Core",
+                icon: "fa-coins",
+                content: createEventAppContent(
+                    "Capital Core covers fintech infrastructure, financial tracking, venture models, and portfolio logic.",
+                    ["Fintech Frameworks", "Algorithmic Risk Assessment", "Automated Bookkeeping"],
+                    ["Engineer a dynamic cashflow forecasting model.", "Build an automated real-time expense splitting protocol."],
+                    "Capital_Core_Brochure.pdf",
+                    "https://docs.google.com/forms/d/e/1FAIpQLScCAPITAL_CORE_UNIQUE_FORM/viewform"
+                )
+            },
+            brochure: {
+                title: "General Pamphlet",
+                icon: "fa-book-open",
+                content: `
+                    <div style="height: 100%; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px;">
+                        <i class="fa-solid fa-file-pdf" style="font-size: 3.2rem; color: var(--cyan-accent); text-shadow: 0 0 15px var(--cyan-accent);"></i>
+                        <p style="color: var(--text-secondary); max-width: 400px; font-size: 0.88rem;">
+                            Access the complete Harvest InnovateX master event guide, schedule, rules, and global reward tracks.
+                        </p>
+                        <a href="InnovateX_Master_Brochure.pdf" target="_blank" class="brochure-link-btn" style="width: auto; padding: 12px 24px;">
+                            <i class="fa-solid fa-download"></i> Open Master Pamphlet PDF
+                        </a>
+                    </div>
+                `
+            },
+            credits: {
+                title: "System Credits",
+                icon: "fa-award",
+                content: `
+                    <div class="event-section">
+                        <h3><i class="fa-solid fa-laptop-code"></i> Engineering</h3>
+                        <p>Harvest InnovateX OS built with vanilla Web APIs, hardware-accelerated canvas animations, and GPU-optimized glassmorphism UI elements.</p>
+                    </div>
+                `
+            }
+        };
+
+        /* Window System Logic */
+        let activeWindows = {};
+        let windowStates = {}; 
+        let highestZIndex = 100;
+
+        function toggleApp(appId) {
+            if (activeWindows[appId]) {
+                if (windowStates[appId] === 'minimized') {
+                    restoreApp(appId);
+                } else if (getTopWindow(appId)) {
+                    minimizeApp(appId);
+                } else {
+                    bringToFront(activeWindows[appId]);
+                }
+            } else {
+                openApp(appId);
+            }
+        }
+
+        function getTopWindow(appId) {
+            const win = activeWindows[appId];
+            return win && parseInt(win.style.zIndex || 0, 10) === highestZIndex;
+        }
+
+        function openApp(appId) {
+            const data = appData[appId];
+            if (!data) return;
+
+            const isMobile = window.innerWidth <= 768;
+            const win = document.createElement('div');
+            win.className = 'os-window';
+            win.dataset.appId = appId;
+            
+            if (!isMobile) {
+                const offset = (Object.keys(activeWindows).length % 5) * 20;
+                win.style.top = `${95 + offset}px`;
+                win.style.left = `${120 + offset}px`;
+            }
+
+            win.innerHTML = `
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fa-solid ${data.icon}"></i> ${data.title}
+                    </div>
+                    <div class="window-controls">
+                        <button class="window-btn btn-minimize" title="Minimize"></button>
+                        <button class="window-btn btn-maximize" title="Maximize"></button>
+                        <button class="window-btn btn-close" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-body">${data.content}</div>
+            `;
+
+            const header = win.querySelector('.window-header');
+            const minBtn = win.querySelector('.btn-minimize');
+            const maxBtn = win.querySelector('.btn-maximize');
+            const closeBtn = win.querySelector('.btn-close');
+
+            minBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizeApp(appId); });
+            maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximizeWindow(appId); });
+            closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeApp(appId); });
+
+            header.addEventListener('mousedown', (e) => initDrag(e, win));
+            header.addEventListener('touchstart', (e) => initDrag(e, win), { passive: false });
+
+            win.addEventListener('mousedown', () => bringToFront(win));
+            win.addEventListener('touchstart', () => bringToFront(win), { passive: true });
+
+            document.getElementById('workspace').appendChild(win);
+            activeWindows[appId] = win;
+            windowStates[appId] = 'open';
+
+            requestAnimationFrame(() => win.classList.add('open'));
+            updateTaskbarState(appId, 'open');
+            bringToFront(win);
+        }
+
+        function minimizeApp(appId) {
+            const win = activeWindows[appId];
+            if (!win) return;
+            win.classList.add('minimized');
+            windowStates[appId] = 'minimized';
+            updateTaskbarState(appId, 'minimized');
+        }
+
+        function restoreApp(appId) {
+            const win = activeWindows[appId];
+            if (!win) return;
+            win.classList.remove('minimized');
+            windowStates[appId] = 'open';
+            updateTaskbarState(appId, 'open');
+            bringToFront(win);
+        }
+
+        function closeApp(appId) {
+            const win = activeWindows[appId];
+            if (!win) return;
+            if (win.dataset.maximized === "true") restoreWindowDimensions(win);
+
+            win.classList.remove('open');
+            setTimeout(() => {
+                win.remove();
+                delete activeWindows[appId];
+                delete windowStates[appId];
+                updateTaskbarState(appId, 'closed');
+            }, 180);
+        }
+
+        function bringToFront(win) {
+            highestZIndex++;
+            win.style.zIndex = highestZIndex;
+        }
+
+        function updateTaskbarState(appId, state) {
+            const taskbarApps = document.querySelectorAll('#taskbarAppsContainer .taskbar-app');
+            const indexMap = { binary_blitz: 0, canvas_clash: 1, scene_sync: 2, capital_core: 3, brochure: 4, credits: 5 };
+            const idx = indexMap[appId];
+            if (idx !== undefined && taskbarApps[idx]) {
+                if (state === 'open') taskbarApps[idx].classList.add('active');
+                else if (state === 'closed') taskbarApps[idx].classList.remove('active');
+            }
+        }
+
+        function clearAllWindows() {
+            Object.keys(activeWindows).forEach(appId => minimizeApp(appId));
+            triggerNotification("Workspace", "Windows minimized.");
+        }
+
+        /* Smooth Window Dragging */
+        function initDrag(e, win) {
+            if (e.target.closest('.window-controls')) return;
+            if (win.dataset.maximized === "true" || window.innerWidth <= 768) return;
+
+            bringToFront(win);
+
+            let isTouch = e.type === 'touchstart';
+            let startX = isTouch ? e.touches[0].clientX : e.clientX;
+            let startY = isTouch ? e.touches[0].clientY : e.clientY;
+
+            let rect = win.getBoundingClientRect();
+            let offsetX = startX - rect.left;
+            let offsetY = startY - rect.top;
+
+            function onMove(moveEvent) {
+                let currentX = moveEvent.type.startsWith('touch') ? moveEvent.touches[0].clientX : moveEvent.clientX;
+                let currentY = moveEvent.type.startsWith('touch') ? moveEvent.touches[0].clientY : moveEvent.clientY;
+
+                win.style.left = `${currentX - offsetX}px`;
+                win.style.top = `${currentY - offsetY}px`;
+            }
+
+            function onEnd() {
+                window.removeEventListener('mousemove', onMove);
+                window.removeEventListener('mouseup', onEnd);
+                window.removeEventListener('touchmove', onMove);
+                window.removeEventListener('touchend', onEnd);
+            }
+
+            if (isTouch) {
+                window.addEventListener('touchmove', onMove, { passive: false });
+                window.addEventListener('touchend', onEnd);
+            } else {
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onEnd);
+            }
+        }
+
+        /* Maximize/Restore Window Toggle */
+        function toggleMaximizeWindow(appId) {
+            const win = activeWindows[appId];
+            if (!win) return;
+
+            if (win.dataset.maximized === "true") restoreWindowDimensions(win);
+            else maximizeWindowDimensions(win);
+        }
+
+        function maximizeWindowDimensions(win) {
+            win.dataset.prevTop = win.style.top || "95px";
+            win.dataset.prevLeft = win.style.left || "120px";
+            win.dataset.prevWidth = win.style.width || "760px";
+            win.dataset.prevHeight = win.style.height || "520px";
+
+            win.style.top = "0px";
+            win.style.left = "0px";
+            win.style.width = "100vw";
+            win.style.height = "100vh";
+            win.style.borderRadius = "0px";
+            win.dataset.maximized = "true";
+            
+            bringToFront(win);
+            document.getElementById('taskbar').style.opacity = '0';
+            document.getElementById('dynamicIsland').style.opacity = '0';
+        }
+
+        function restoreWindowDimensions(win) {
+            win.style.width = win.dataset.prevWidth || "760px";
+            win.style.height = win.dataset.prevHeight || "520px";
+            win.style.top = win.dataset.prevTop || "95px";
+            win.style.left = win.dataset.prevLeft || "120px";
+            win.style.borderRadius = "var(--radius-main)";
+            win.dataset.maximized = "false";
+
+            document.getElementById('taskbar').style.opacity = '1';
+            document.getElementById('dynamicIsland').style.opacity = '1';
+        }
+    </script>
+</body>
+</html>
