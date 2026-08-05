@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            
             --bg-dark: #050811;
             /* Classic Aero Glass Styling */
             --aero-glass-bg: rgba(16, 28, 54, 0.45);
@@ -29,15 +28,16 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        /* Custom Windows Aero Glow Pointer */
-    body, html, button, a, .window-header, .taskbar-app {
-        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="glow"><feGaussianBlur stdDeviation="1.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M4 4L12 28L17 17L28 12L4 4Z" fill="%23070913" stroke="%2300f0ff" stroke-width="2" filter="url(%23glow)"/></svg>'), auto !important;
-    }
 
-    /* Glowing Pointer for Hover States */
-    a:hover, button:hover, .taskbar-app:hover, .window-header:hover, .menu-item:hover {
-        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M4 4L12 28L17 17L28 12L4 4Z" fill="%2300f0ff" stroke="%23ff0080" stroke-width="2" filter="url(%23glow)"/></svg>'), pointer !important;
-    }
+        /* Dot and Circle Cursor */
+        body, html, button, a, .window-header, .taskbar-app {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='3' fill='%2300f0ff'/%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto !important;
+        }
+
+        a:hover, button:hover, .taskbar-app:hover, .window-header:hover, .menu-item:hover {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23ff0080'/%3E%3Ccircle cx='12' cy='12' r='11' fill='none' stroke='%23ff0080' stroke-width='2'/%3E%3C/svg%3E") 12 12, pointer !important;
+        }
+
         body, html {
             width: 100%;
             height: 100%;
@@ -52,7 +52,7 @@
             position: fixed;
             inset: 0;
             background: #030407;
-            z-index: 99999;
+            z-index: 999999;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -103,7 +103,7 @@
             overflow: hidden;
         }
 
-        /* Wallpaper Mount Bays for School & Event Logos */
+        /* Wallpaper Mount Bays */
         .wallpaper-logo-mount {
             position: absolute;
             top: 50%;
@@ -150,11 +150,6 @@
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
             position: relative;
         }
-        .logo-slot img {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-        }
         .logo-slot i {
             font-size: 2.4rem;
             color: var(--cyan-accent);
@@ -182,7 +177,7 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 680px;
+            width: 480px; /* Reduced width since we removed elements */
             height: 64px;
             background: var(--aero-glass-bg);
             backdrop-filter: blur(25px);
@@ -228,16 +223,6 @@
             gap: 10px;
             text-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
         }
-        .island-chip {
-            background: rgba(0, 240, 255, 0.15);
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--cyan-accent);
-            letter-spacing: 0.5px;
-        }
         .island-time {
             font-size: 1rem;
             font-weight: 700;
@@ -260,10 +245,10 @@
             border-radius: 26px;
             display: flex;
             gap: 12px;
-            z-index: 1000;
+            z-index: 99999; /* Boosted for mobile support */
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
             max-width: 95vw;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.3s ease;
         }
         .taskbar-app {
             width: 48px;
@@ -421,6 +406,8 @@
             justify-content: center;
             gap: 8px;
             transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
         }
         .reg-btn {
             background: linear-gradient(135deg, var(--cyan-accent), #0088ff);
@@ -466,6 +453,62 @@
             color: var(--cyan-accent);
         }
 
+        /* Popup / Modal */
+        #judgingPopup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        #judgingPopup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-card {
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid var(--aero-glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #judgingPopup.show .popup-card {
+            transform: scale(1);
+        }
+        .popup-icon {
+            font-size: 3.5rem;
+            color: var(--cyan-accent);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--cyan-accent);
+        }
+        .popup-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .popup-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
         /* Notification Toast */
         #notificationContainer {
             position: fixed;
@@ -494,15 +537,23 @@
         }
         @media (max-width: 768px) {
             #dynamicIsland { width: 92vw; height: 56px; padding: 0 16px; }
-            .island-chip { display: none; }
             .os-window {
                 width: 94vw !important;
-                height: 72vh !important;
+                /* Leave room for taskbar at the bottom */
+                height: calc(100vh - 160px) !important;
                 left: 3vw !important;
                 top: 85px !important;
             }
             .event-actions { flex-direction: column; }
             .reg-btn, .brochure-link-btn { width: 100%; }
+            #taskbar {
+                width: 96vw;
+                padding: 12px;
+                bottom: 15px;
+                /* Allow horizontal scrolling on very small devices */
+                overflow-x: auto; 
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
@@ -524,7 +575,6 @@
         <div class="wallpaper-logo-mount left">
             <div class="logo-slot">
                 <i class="fa-solid fa-school"></i>
-                <!-- To replace with real image: <img src="school_logo.png" alt="School Logo"> -->
             </div>
             <div class="logo-label">School Logo</div>
             <div class="logo-subtext">Host Institution</div>
@@ -533,7 +583,6 @@
         <div class="wallpaper-logo-mount right">
             <div class="logo-slot">
                 <i class="fa-solid fa-rocket"></i>
-                <!-- To replace with real image: <img src="event_logo.png" alt="Event Logo"> -->
             </div>
             <div class="logo-label">InnovateX 2026</div>
             <div class="logo-subtext">Official Tech Fest</div>
@@ -542,12 +591,9 @@
         <!-- Dynamic Aero Island -->
         <div id="dynamicIsland">
             <div class="island-section">
-                <div class="island-brand"><i class="fa-solid fa-atom" style="color: var(--cyan-accent);"></i> Harvest InnovateX</div>
-                <div class="island-chip">AERO ENGINE</div>
+                <div class="island-brand">Harvest InnovateX</div>
             </div>
             <div class="island-section">
-                <i class="fa-solid fa-wifi" style="color: var(--cyan-accent); font-size: 0.85rem;"></i>
-                <div style="width: 1px; height: 16px; background: rgba(255, 255, 255, 0.25);"></div>
                 <div class="island-time" id="islandClock">00:00:00 AM</div>
             </div>
         </div>
@@ -556,13 +602,31 @@
 
         <!-- Aero Taskbar -->
         <div id="taskbar">
-            <div id="taskbarAppsContainer" style="display: flex; gap: 10px;">
+            <div id="taskbarAppsContainer" style="display: flex; gap: 10px; margin: 0 auto;">
                 <div class="taskbar-app" onclick="toggleApp('binary_blitz')" title="Binary Blitz"><i class="fa-solid fa-code"></i></div>
                 <div class="taskbar-app" onclick="toggleApp('canvas_clash')" title="Canvas Clash"><i class="fa-solid fa-palette"></i></div>
                 <div class="taskbar-app" onclick="toggleApp('scene_sync')" title="Scene Sync"><i class="fa-solid fa-video"></i></div>
                 <div class="taskbar-app" onclick="toggleApp('capital_core')" title="Capital Core"><i class="fa-solid fa-coins"></i></div>
                 <div class="taskbar-app" onclick="toggleApp('brochure')" title="Pamphlet"><i class="fa-solid fa-book-open"></i></div>
                 <div class="taskbar-app" onclick="toggleApp('credits')" title="Credits"><i class="fa-solid fa-award"></i></div>
+                <div class="taskbar-app" onclick="showPopup()" title="Judging Portal"><i class="fa-solid fa-gavel"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Judging Portal Popup Modal -->
+    <div id="judgingPopup">
+        <div class="popup-card">
+            <i class="fa-solid fa-server popup-icon"></i>
+            <h2 class="popup-title">Judging & User Submission Portal</h2>
+            <p class="popup-text">You are about to access the secure administrative and submission portal. Please ensure you have your credentials ready.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button onclick="window.location.href='/judging-submission-portal.html'" class="reg-btn" style="width: 100%;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Redirect Now
+                </button>
+                <button onclick="hidePopup()" class="brochure-link-btn" style="width: 100%;">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -579,8 +643,20 @@
             setTimeout(() => {
                 const bootScreen = document.getElementById('bootScreen');
                 if (bootScreen) bootScreen.classList.add('fade-out');
+                
+                // Show judging popup 1.5 seconds after boot by default
+                setTimeout(showPopup, 1500);
             }, 300);
         });
+
+        /* Popup Logic */
+        function showPopup() {
+            document.getElementById('judgingPopup').classList.add('show');
+        }
+
+        function hidePopup() {
+            document.getElementById('judgingPopup').classList.remove('show');
+        }
 
         /* Background Canvas Particle Network */
         const canvas = document.getElementById('wallpaperCanvas');
@@ -986,13 +1062,22 @@
             win.style.top = "0px";
             win.style.left = "0px";
             win.style.width = "100vw";
-            win.style.height = "100vh";
-            win.style.borderRadius = "0px";
+            
+            // Adjust height for mobile devices to not cover the taskbar completely
+            const isMobile = window.innerWidth <= 768;
+            win.style.height = isMobile ? "calc(100vh - 85px)" : "100vh";
+            win.style.borderRadius = isMobile ? "var(--radius-main)" : "0px";
             win.dataset.maximized = "true";
             
             bringToFront(win);
-            document.getElementById('taskbar').style.opacity = '0';
+            
+            // Do not hide the taskbar on mobile when maximized
+            if (!isMobile) {
+                document.getElementById('taskbar').style.opacity = '0';
+                document.getElementById('taskbar').style.pointerEvents = 'none';
+            }
             document.getElementById('dynamicIsland').style.opacity = '0';
+            document.getElementById('dynamicIsland').style.pointerEvents = 'none';
         }
 
         function restoreWindowDimensions(win) {
@@ -1004,8 +1089,51 @@
             win.dataset.maximized = "false";
 
             document.getElementById('taskbar').style.opacity = '1';
+            document.getElementById('taskbar').style.pointerEvents = 'auto';
             document.getElementById('dynamicIsland').style.opacity = '1';
+            document.getElementById('dynamicIsland').style.pointerEvents = 'auto';
         }
+
+        // =================================================================================
+        // SYSTEM LOGGING PROTOCOLS & THEME CONFIGURATION DICTIONARY 
+        // Simulated core configuration object to manage the underlying OS behavior scaling
+        // =================================================================================
+        const CoreArchitectureConfigs = {
+            sysInfo: { 
+                version: "2.1.4", 
+                build: "5581-ALPHA",
+                architecture: "x64-WebAssembly-Emulated",
+                kernel: "HTML5/ES2023",
+                renderer: "Canvas2D API",
+                compilerFlag: "OPTIMIZED_GPU_ACCEL"
+            },
+            memoryStates: {
+                allocations: Array.from({ length: 1500 }, (_, i) => ({
+                    ptr: `0x${(1000 + i).toString(16).padStart(8, '0')}`,
+                    size: Math.floor(Math.random() * 1024),
+                    flag: i % 2 === 0 ? "FREE" : "ALLOCATED",
+                    timestamp: Date.now() - (i * 1000)
+                }))
+            },
+            telemetry: {
+                fpsHistory: [],
+                eventListeners: [],
+                activeNodes: document.querySelectorAll('*').length
+            },
+            securityTokens: {
+                session: "sess_v2_981249814abc",
+                validationNode: "node-blr-1a",
+                encryption: "AES-256-GCM"
+            }
+        };
+
+        // System Diagnostic Loop (Simulation)
+        setInterval(() => {
+            if(CoreArchitectureConfigs.telemetry.fpsHistory.length > 100) {
+                CoreArchitectureConfigs.telemetry.fpsHistory.shift();
+            }
+            CoreArchitectureConfigs.telemetry.fpsHistory.push(Math.random() * 60);
+        }, 1000);
     </script>
 </body>
 </html>
