@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovateX Judging Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #111827;
+            --neon-cyan: #00e5ff;
+            --neon-pink: #ff007f;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
+        }
+        header {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-area { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 0.5rem; }
+        .logo-img { height: 50px; border-radius: 4px; filter: drop-shadow(0 0 5px var(--neon-cyan)); }
+        .harvest-logo { height: 55px; filter: drop-shadow(0 0 5px var(--neon-pink)); }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; margin-top: 10px; }
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        /* Countdown Banner */
+        .countdown-banner {
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+        .countdown-banner h3 { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); margin-bottom: 0.8rem; }
+        .timer-grid { display: flex; justify-content: center; gap: 2rem; font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; }
+        .timer-block span { display: block; font-size: 0.7rem; color: var(--text-muted); font-family: 'Fira Code', monospace; }
+        
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 0.8rem 1.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Panels & Forms */
+        .panel { background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2.5rem; margin-bottom: 2rem; }
+        .panel h2 { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; margin-bottom: 1.5rem; border-left: 4px solid var(--neon-pink); padding-left: 12px; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        input, select, textarea {
+            width: 100%; padding: 0.8rem 1rem; background: #07090e;
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: var(--text-main);
+            font-family: 'Fira Code', monospace; font-size: 0.95rem;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 8px rgba(0, 229, 255, 0.3); }
+        
+        /* Custom Neon File Upload Button */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+        }
+        .file-upload-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #07090e;
+            border: 1px dashed var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .file-upload-wrapper:hover .file-upload-btn {
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+            border-color: var(--neon-cyan);
+        }
+        .file-upload-btn.file-chosen {
+            border-style: solid;
+            border-color: #00ff66;
+            color: #00ff66;
+        }
+        
+        .btn-neon {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            color: #000; border: none; padding: 0.9rem 2rem;
+            font-family: 'Orbitron', sans-serif; font-weight: 800; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 1rem;
+            transition: 0.3s;
+        }
+        .btn-neon:hover { filter: brightness(1.2); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        .btn-neon:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Leaderboard Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; }
+        th { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); }
+        .locked-msg { text-align: center; padding: 2rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif; }
+        .status-msg { margin-top: 1rem; text-align: center; font-size: 0.85rem; min-height: 20px;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <img src="Logo.jpg" alt="InnovateX Logo" class="logo-img" onerror="this.style.display='none'">
+            <h1>INNOVATEX</h1>
+            <img src="Harvest-InnovateX-Transparent.png" alt="Harvest Logo" class="harvest-logo" onerror="this.style.display='none'">
+        </div>
+        <p class="tagline">WHERE IDEAS BECOME REALITY</p>
+    </header>
+
+    <div class="container">
+        <!-- COUNTDOWN TIMER -->
+        <div class="countdown-banner">
+            <h3>RESULTS REVEAL COUNTDOWN</h3>
+            <div class="timer-grid">
+                <div class="timer-block"><span id="days">00</span><span>DAYS</span></div>
+                <div>:</div>
+                <div class="timer-block"><span id="hours">00</span><span>HOURS</span></div>
+                <div>:</div>
+                <div class="timer-block"><span id="mins">00</span><span>MINS</span></div>
+                <div>:</div>
+                <div class="timer-block"><span id="secs">00</span><span>SECS</span></div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('submit', this)">Participant Portal</button>
+            <button class="tab-btn" onclick="switchTab('judge', this)">Judge Panel</button>
+            <button class="tab-btn" onclick="switchTab('results', this); checkLeaderboardUnlock();">Leaderboards</button>
+        </div>
+
+        <!-- TAB 1: PARTICIPANT SUBMISSION -->
+        <div id="submit" class="tab-content active">
+            <div class="panel">
+                <h2>PROJECT SUBMISSION PORTAL</h2>
+                <form id="submissionForm" onsubmit="handleSubmission(event)">
+                    <div class="form-group">
+                        <label>Team Name / Solo Participant Name *</label>
+                        <input type="text" id="participantName" required placeholder="e.g. Cyber Ninjas or Alex">
+                    </div>
+                    <div class="form-group">
+                        <label>Grade / Year *</label>
+                        <input type="text" id="participantGrade" required placeholder="e.g. 10th Grade">
+                    </div>
+                    <div class="form-group">
+                        <label>Select Domain *</label>
+                        <select id="domainSelect" required>
+                            <option value="" disabled selected>-- Choose Your Track --</option>
+                            <option value="Binary Blitz">Binary Blitz</option>
+                            <option value="Canvas Clash">Canvas Clash</option>
+                            <option value="Scene Sync">Scene Sync</option>
+                            <option value="Capital Core">Capital Core</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Description *</label>
+                        <textarea id="projectDetails" rows="4" required placeholder="Describe what you built and how it works..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Project File / Archive (ZIP or Code) *</label>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload-btn" id="fileLabelText">
+                                📁 SELECT PROJECT ARCHIVE OR CODE FILE
+                            </div>
+                            <input type="file" id="projectFile" required onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-neon" id="submitBtn">TRANSMIT TO REGISTRY</button>
+                    <div id="subStatus" class="status-msg"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: JUDGE PANEL -->
+        <div id="judge" class="tab-content">
+            <div class="panel" id="judgeAuthPanel">
+                <h2>JUDGE AUTHENTICATION</h2>
+                <div class="form-group">
+                    <label>Enter Security Passcode</label>
+                    <input type="password" id="judgePasscode" placeholder="••••••••">
+                </div>
+                <button class="btn-neon" onclick="verifyJudge()" id="loginBtn">ACCESS EVALUATION</button>
+                <div id="authError" class="status-msg" style="color: var(--neon-pink);"></div>
+            </div>
+
+            <div class="panel" id="judgeWorkspace" style="display: none;">
+                <h2>JUDGE SCORING CONSOLE</h2>
+                <div class="form-group">
+                    <label>Select Domain to Evaluate</label>
+                    <select id="judgeDomain" onchange="loadTeamsForJudge()">
+                        <option value="" disabled selected>-- Select Domain --</option>
+                        <option value="Binary Blitz">Binary Blitz</option>
+                        <option value="Canvas Clash">Canvas Clash</option>
+                        <option value="Scene Sync">Scene Sync</option>
+                        <option value="Capital Core">Capital Core</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Participant / Team</label>
+                    <select id="evalParticipant">
+                        <option value="">-- Waiting for Domain Selection --</option>
+                    </select>
+                </div>
+                
+                <h3 style="font-family: 'Orbitron'; color: var(--neon-cyan); font-size: 1rem; margin: 1.5rem 0 1rem 0;">EVALUATION CRITERIA</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group"><label>Problem Solving [25]</label><input type="number" id="crit1" max="25" min="0" value="0"></div>
+                    <div class="form-group"><label>Creativity & Innovation [25]</label><input type="number" id="crit2" max="25" min="0" value="0"></div>
+                    <div class="form-group"><label>Product And Design [25]</label><input type="number" id="crit3" max="25" min="0" value="0"></div>
+                    <div class="form-group"><label>Real World Application [10]</label><input type="number" id="crit4" max="10" min="0" value="0"></div>
+                    <div class="form-group" style="grid-column: span 2;"><label>Execution / Extra [15] (Total / 100)</label><input type="number" id="crit5" max="15" min="0" value="0"></div>
+                </div>
+                <button class="btn-neon" onclick="submitScore()" id="scoreBtn">SAVE SCORES TO SPREADSHEET</button>
+                <div id="scoreStatus" class="status-msg"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: LEADERBOARDS -->
+        <div id="results" class="tab-content">
+            <div id="lockedResults" class="panel">
+                <h2>LEADERBOARD RANKINGS</h2>
+                <div class="locked-msg">[🔒 LEADERBOARD LOCKED]<br>Rankings will unlock when the countdown hits zero.</div>
+            </div>
+            <div id="unlockedResults" style="display: none;">
+                <div class="panel"><h2>🏆 BINARY BLITZ</h2><div id="leaderboard-Binary"></div></div>
+                <div class="panel"><h2>🏆 CANVAS CLASH</h2><div id="leaderboard-Canvas"></div></div>
+                <div class="panel"><h2>🏆 SCENE SYNC</h2><div id="leaderboard-Scene"></div></div>
+                <div class="panel"><h2>🏆 CAPITAL CORE</h2><div id="leaderboard-Capital"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgKyR8EfFD18GKWV-O2I3VFospk8aMdux9l_ymC_UNShlo1cbRd3hAty2phpuOOJ9DXg/exec";
+        const TARGET_DATE = new Date("Aug 10, 2026 15:00:00").getTime(); 
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = TARGET_DATE - now;
+            if (diff <= 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("mins").innerText = "00";
+                document.getElementById("secs").innerText = "00";
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("mins").innerText = String(mins).padStart(2, '0');
+            document.getElementById("secs").innerText = String(secs).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function checkLeaderboardUnlock() {
+            if (new Date().getTime() >= TARGET_DATE) {
+                document.getElementById("lockedResults").style.display = "none";
+                document.getElementById("unlockedResults").style.display = "block";
+                fetchLeaderboardData();
+            }
+        }
+
+        // Custom File Upload Label Preview
+        function updateFileName(input) {
+            const label = document.getElementById('fileLabelText');
+            if (input.files && input.files.length > 0) {
+                label.innerText = "✔ " + input.files[0].name;
+                label.classList.add('file-chosen');
+            } else {
+                label.innerText = "📁 SELECT PROJECT ARCHIVE OR CODE FILE";
+                label.classList.remove('file-chosen');
+            }
+        }
+
+        // Student Submission with File to Base64 Conversion
+        async function handleSubmission(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('subStatus');
+            const fileInput = document.getElementById('projectFile');
+            
+            if (fileInput.files.length === 0) {
+                alert("Please select a file to upload.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            btn.disabled = true;
+            status.style.color = "var(--neon-cyan)";
+            status.innerText = "Encoding file & transmitting...";
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async function () {
+                const base64Data = reader.result.split(',')[1];
+                const payload = {
+                    action: "submitProject",
+                    name: document.getElementById('participantName').value,
+                    grade: document.getElementById('participantGrade').value,
+                    domain: document.getElementById('domainSelect').value,
+                    details: document.getElementById('projectDetails').value,
+                    fileName: file.name,
+                    fileMime: file.type,
+                    fileData: base64Data
+                };
+
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        status.style.color = "#00ff66";
+                        status.innerText = "Successfully transmitted to Registry & Drive!";
+                        document.getElementById('submissionForm').reset();
+                        document.getElementById('fileLabelText').innerText = "📁 SELECT PROJECT ARCHIVE OR CODE FILE";
+                        document.getElementById('fileLabelText').classList.remove('file-chosen');
+                    } else {
+                        throw new Error(data.error || "Server error");
+                    }
+                } catch (err) {
+                    status.style.color = "var(--neon-pink)";
+                    status.innerText = "Submission Failed: " + err.message;
+                } finally {
+                    btn.disabled = false;
+                    setTimeout(() => status.innerText = "", 4000);
+                }
+            };
+            reader.onerror = function () {
+                status.style.color = "var(--neon-pink)";
+                status.innerText = "Error reading file.";
+                btn.disabled = false;
+            };
+        }
+
+        // Judge Authentication Login
+        async function verifyJudge() {
+            const pin = document.getElementById('judgePasscode').value;
+            const errorEl = document.getElementById('authError');
+            const btn = document.getElementById('loginBtn');
+            
+            if(!pin) { errorEl.innerText = "Passcode required."; return; }
+            
+            btn.disabled = true;
+            errorEl.style.color = "var(--neon-cyan)";
+            errorEl.innerText = "Verifying...";
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "verifyJudge", password: pin })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('judgeAuthPanel').style.display = 'none';
+                    document.getElementById('judgeWorkspace').style.display = 'block';
+                } else {
+                    errorEl.style.color = "var(--neon-pink)";
+                    errorEl.innerText = "Incorrect Security Passcode.";
+                }
+            } catch (err) {
+                errorEl.style.color = "var(--neon-pink)";
+                errorEl.innerText = "Network Error.";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Fetch registered teams for selected domain
+        async function loadTeamsForJudge() {
+            const domain = document.getElementById('judgeDomain').value;
+            const select = document.getElementById('evalParticipant');
+            select.innerHTML = '<option value="" disabled selected>Loading teams...</option>';
+            
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getTeams&domain=${encodeURIComponent(domain)}`);
+                const data = await response.json();
+                select.innerHTML = '<option value="" disabled selected>-- Select Team --</option>';
+                if(data.teams && data.teams.length > 0) {
+                    data.teams.forEach(team => {
+                        select.innerHTML += `<option value="${team}">${team}</option>`;
+                    });
+                } else {
+                    select.innerHTML += '<option value="" disabled>No submissions found for domain</option>';
+                }
+            } catch(e) {
+                select.innerHTML = '<option value="" disabled>Error loading teams</option>';
+            }
+        }
+
+        // Submit Score
+        async function submitScore() {
+            const team = document.getElementById('evalParticipant').value;
+            const domain = document.getElementById('judgeDomain').value;
+            const status = document.getElementById('scoreStatus');
+            const btn = document.getElementById('scoreBtn');
+            
+            if(!team || !domain) { alert("Select Domain and Participant first!"); return; }
+
+            const payload = {
+                action: "submitMarks",
+                domain: domain,
+                team: team,
+                crit1: parseInt(document.getElementById('crit1').value)||0,
+                crit2: parseInt(document.getElementById('crit2').value)||0,
+                crit3: parseInt(document.getElementById('crit3').value)||0,
+                crit4: parseInt(document.getElementById('crit4').value)||0,
+                crit5: parseInt(document.getElementById('crit5').value)||0
+            };
+
+            btn.disabled = true;
+            status.style.color = "var(--neon-cyan)";
+            status.innerText = "Saving scores...";
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if(data.success) {
+                    status.style.color = "#00ff66";
+                    status.innerText = `Saved! Total: ${payload.crit1+payload.crit2+payload.crit3+payload.crit4+payload.crit5}/100`;
+                    document.querySelectorAll('input[type="number"]').forEach(el => el.value = "0");
+                    document.getElementById('evalParticipant').value = "";
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (err) {
+                status.style.color = "var(--neon-pink)";
+                status.innerText = "Error saving scores.";
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => { if(status.innerText.includes("Saved")) status.innerText = ""; }, 3000);
+            }
+        }
+
+        // Fetch Leaderboard Rankings
+        async function fetchLeaderboardData() {
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getLeaderboard`);
+                const data = await response.json();
+                if(data.success) {
+                    renderLeaderboardTable('Binary Blitz', 'leaderboard-Binary', data.rankings['Binary Blitz']);
+                    renderLeaderboardTable('Canvas Clash', 'leaderboard-Canvas', data.rankings['Canvas Clash']);
+                    renderLeaderboardTable('Scene Sync', 'leaderboard-Scene', data.rankings['Scene Sync']);
+                    renderLeaderboardTable('Capital Core', 'leaderboard-Capital', data.rankings['Capital Core']);
+                }
+            } catch(e) {
+                console.error("Could not load leaderboards");
+            }
+        }
+
+        function renderLeaderboardTable(domain, elementId, items) {
+            const container = document.getElementById(elementId);
+            if(!items || items.length === 0) {
+                container.innerHTML = "<p style='color:var(--text-muted); font-size:0.85rem;'>No evaluated entries yet.</p>";
+                return;
+            }
+            let html = `<table><thead><tr><th>Rank</th><th>Team</th><th>Score</th></tr></thead><tbody>`;
+            items.forEach((row, index) => {
+                let crown = index === 0 ? "👑 " : "";
+                html += `<tr><td>#${index+1}</td><td>${crown}${row.team}</td><td style="color:var(--neon-cyan);">${row.score}/100</td></tr>`;
+            });
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
