@@ -7,18 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-dark: #050811;
-            /* Classic Aero Glass Styling */
-            --aero-glass-bg: rgba(16, 28, 54, 0.45);
-            --aero-glass-surface: rgba(255, 255, 255, 0.08);
-            --aero-glass-border: rgba(0, 240, 255, 0.35);
-            --aero-glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(0, 240, 255, 0) 100%);
-            --cyan-accent: #00f0ff;
-            --magenta-accent: #ff0080;
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e1;
-            --radius-main: 18px;
-            --radius-btn: 10px;
+            --bg-dark: #040609;
+            --aero-glass-bg: rgba(14, 18, 28, 0.72);
+            --aero-glass-surface: rgba(255, 255, 255, 0.05);
+            --aero-glass-border: rgba(6, 182, 212, 0.3);
+            --aero-glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(6, 182, 212, 0) 100%);
+            
+            /* Cyan to Red Core Palette */
+            --primary-accent: #06b6d4;   /* Cyan */
+            --secondary-accent: #ef4444; /* Red */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --radius-main: 20px;
+            --radius-btn: 12px;
+
+            /* Event App Theme Colors */
+            --binary-blitz-accent: #06b6d4;  /* Cyan */
+            --canvas-clash-accent: #f59e0b;  /* Yellow */
+            --scene-sync-accent: #ef4444;    /* Red */
+            --capital-core-accent: #10b981;  /* Emerald */
         }
 
         * {
@@ -29,13 +36,65 @@
             -webkit-user-select: none;
         }
 
-        /* Dot and Circle Cursor */
-        body, html, button, a, .window-header, .taskbar-app {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='3' fill='%2300f0ff'/%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto !important;
+        /* Professional Minimalist Custom Cursor */
+        body, html {
+            cursor: none !important;
+        }
+        button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn, input, select {
+            cursor: none !important;
         }
 
-        a:hover, button:hover, .taskbar-app:hover, .window-header:hover, .menu-item:hover {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23ff0080'/%3E%3Ccircle cx='12' cy='12' r='11' fill='none' stroke='%23ff0080' stroke-width='2'/%3E%3C/svg%3E") 12 12, pointer !important;
+        #customCursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid rgba(6, 182, 212, 0.85);
+            background: rgba(6, 182, 212, 0.04);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.15s ease, height 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+            z-index: 9999999;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+        }
+        #customCursorDot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 5px;
+            background: var(--secondary-accent);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000000;
+            box-shadow: 0 0 8px var(--secondary-accent);
+        }
+        body.cursor-hover #customCursor {
+            width: 38px;
+            height: 38px;
+            border-color: var(--secondary-accent);
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 15, 30, 0.5);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-accent);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-accent);
         }
 
         body, html {
@@ -47,27 +106,27 @@
             color: var(--text-primary);
         }
 
-        /* Boot Screen */
         #bootScreen {
             position: fixed;
             inset: 0;
-            background: #030407;
+            background: #020305;
             z-index: 999999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         #bootScreen.fade-out {
             opacity: 0;
             visibility: hidden;
         }
         .boot-spinner {
-            width: 42px;
-            height: 42px;
-            border: 3px solid rgba(0, 240, 255, 0.15);
-            border-top-color: var(--cyan-accent);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(6, 182, 212, 0.2);
+            border-top-color: var(--primary-accent);
+            border-right-color: var(--secondary-accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin-bottom: 16px;
@@ -77,13 +136,12 @@
         }
         .boot-title {
             font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
+            font-weight: 700;
+            letter-spacing: 2px;
             color: var(--text-primary);
-            text-shadow: 0 0 12px var(--cyan-accent);
+            text-shadow: 0 0 15px var(--primary-accent);
         }
 
-        /* Particle Background Canvas */
         #wallpaperCanvas {
             position: fixed;
             top: 0;
@@ -91,28 +149,30 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none;
+            pointer-events: auto;
         }
 
-        /* Desktop Workspace */
         #workspace {
             position: relative;
             width: 100vw;
             height: 100vh;
             z-index: 2;
             overflow: hidden;
+            pointer-events: none;
+        }
+        #workspace > * {
+            pointer-events: auto;
         }
 
-        /* Wallpaper Mount Bays */
         .wallpaper-logo-mount {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             width: 210px;
             height: 280px;
-            background: rgba(10, 18, 36, 0.35);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: var(--aero-glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--aero-glass-border);
             border-radius: 24px;
             z-index: 2;
@@ -121,9 +181,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            pointer-events: none;
-            transition: all 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.15);
         }
         .wallpaper-logo-mount::before {
             content: '';
@@ -133,305 +191,411 @@
             background: var(--aero-glass-shine);
             pointer-events: none;
         }
-        .wallpaper-logo-mount.left { left: 30px; }
-        .wallpaper-logo-mount.right { right: 30px; }
+        .wallpaper-logo-mount.left { left: 35px; }
+        .wallpaper-logo-mount.right { right: 35px; }
 
         .logo-slot {
-            width: 120px;
-            height: 120px;
+            width: 105px;
+            height: 105px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(0, 240, 255, 0.4);
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(6, 182, 212, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
             position: relative;
+            overflow: hidden;
+        }
+        .logo-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .logo-slot i {
-            font-size: 2.4rem;
-            color: var(--cyan-accent);
-            text-shadow: 0 0 12px var(--cyan-accent);
+            font-size: 2rem;
+            color: var(--primary-accent);
+            text-shadow: 0 0 12px var(--primary-accent);
         }
         .logo-label {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+            text-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
             text-align: center;
         }
         .logo-subtext {
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             color: var(--text-secondary);
             margin-top: 4px;
             text-align: center;
         }
 
-        /* Large & Dynamic Aero Island */
+        /* Dynamic Island */
         #dynamicIsland {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 480px; /* Reduced width since we removed elements */
-            height: 64px;
+            width: 500px;
+            height: 60px;
             background: var(--aero-glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--aero-glass-border);
-            border-radius: 36px;
+            border-radius: 34px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
+            padding: 0 20px;
             z-index: 1000;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-            animation: islandGlow 5s infinite alternate;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
         }
         #dynamicIsland::before {
             content: '';
             position: absolute;
             inset: 0;
-            border-radius: 36px;
+            border-radius: 34px;
             background: var(--aero-glass-shine);
             pointer-events: none;
         }
-        @keyframes islandGlow {
-            0% { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.25); }
-            100% { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 0, 128, 0.35); }
-        }
-
         .island-section {
             display: flex;
             align-items: center;
             gap: 12px;
             z-index: 2;
         }
+        .island-logo-slot {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px dashed rgba(6, 182, 212, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .island-logo-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .island-logo-slot i {
+            font-size: 1rem;
+            color: var(--primary-accent);
+        }
         .island-brand {
             font-weight: 800;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: #fff;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+            gap: 8px;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
         }
         .island-time {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            color: #fff;
+            color: #e2e8f0;
             font-family: 'Courier New', Courier, monospace;
-            text-shadow: 0 0 10px var(--cyan-accent);
+            text-shadow: 0 0 8px var(--primary-accent);
         }
 
-        /* Aero Glass Taskbar */
         #taskbar {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--aero-glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--aero-glass-border);
             padding: 10px 16px;
             border-radius: 26px;
             display: flex;
             gap: 12px;
-            z-index: 99999; /* Boosted for mobile support */
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            z-index: 99999;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
             max-width: 95vw;
-            transition: opacity 0.2s ease, transform 0.3s ease;
         }
         .taskbar-app {
             width: 48px;
             height: 48px;
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.25rem;
-            cursor: pointer;
             position: relative;
             flex-shrink: 0;
-            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
+        .custom-taskbar-icon {
+            width: 58%;
+            height: 58%;
+            object-fit: contain;
+        }
+        .taskbar-app.app-binary { color: var(--binary-blitz-accent); }
+        .taskbar-app.app-canvas { color: var(--canvas-clash-accent); }
+        .taskbar-app.app-scene { color: var(--scene-sync-accent); }
+        .taskbar-app.app-capital { color: var(--capital-core-accent); }
+        .taskbar-app.app-grey { color: var(--text-secondary); font-size: 1.2rem; }
+
         .taskbar-app:hover {
             transform: translateY(-5px);
-            background: rgba(0, 240, 255, 0.25);
-            border-color: var(--cyan-accent);
-            box-shadow: 0 0 20px var(--cyan-accent);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px currentColor;
         }
-        .taskbar-app:active { transform: scale(0.92); }
         .taskbar-app.active::after {
             content: '';
             position: absolute;
             bottom: -4px;
             width: 14px;
-            height: 4px;
-            background: var(--cyan-accent);
+            height: 3px;
+            background: currentColor;
             border-radius: 2px;
-            box-shadow: 0 0 10px var(--cyan-accent);
+            box-shadow: 0 0 8px currentColor;
         }
 
-        /* Aero Glass Windows */
         .os-window {
             position: absolute;
-            width: 760px;
-            height: 520px;
-            background: rgba(12, 20, 40, 0.65);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
+            background: rgba(10, 14, 22, 0.88);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--aero-glass-border);
             border-radius: var(--radius-main);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             opacity: 0;
             transform: translate3d(0, 0, 0) scale(0.95);
             transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-            will-change: transform, opacity;
             touch-action: none;
         }
-        .os-window.open {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1);
-        }
+        .os-window[data-app-id="binary_blitz"] { border-color: rgba(6, 182, 212, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(6, 182, 212, 0.15); }
+        .os-window[data-app-id="canvas_clash"] { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(245, 158, 11, 0.15); }
+        .os-window[data-app-id="scene_sync"] { border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(239, 68, 68, 0.15); }
+        .os-window[data-app-id="capital_core"] { border-color: rgba(16, 185, 129, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(16, 185, 129, 0.15); }
+
+        .os-window.open { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
         .os-window.minimized {
             opacity: 0 !important;
-            transform: translate3d(0, 40px, 0) scale(0.9) !important;
+            transform: translate3d(0, 30px, 0) scale(0.9) !important;
             pointer-events: none !important;
         }
-        
+
         .window-header {
-            height: 44px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
+            height: 48px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.4) 100%);
             border-bottom: 1px solid var(--aero-glass-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 18px;
+            padding: 0 20px;
             cursor: move;
-            touch-action: none;
         }
         .window-title {
-            font-size: 0.88rem;
+            font-size: 0.94rem;
             font-weight: 700;
             color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 10px;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+        }
+        .window-title img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            border-radius: 4px;
         }
         .window-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .window-btn {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             border-radius: 50%;
             border: none;
-            cursor: pointer;
             transition: transform 0.15s ease;
         }
         .window-btn:hover { transform: scale(1.2); }
-        .btn-minimize { background: #ffbd2e; box-shadow: 0 0 8px #ffbd2e; }
-        .btn-maximize { background: #27c93f; box-shadow: 0 0 8px #27c93f; }
-        .btn-close { background: #ff5f56; box-shadow: 0 0 8px #ff5f56; }
+        .btn-minimize { background: #ffbd2e; box-shadow: 0 0 6px #ffbd2e; }
+        .btn-maximize { background: #27c93f; box-shadow: 0 0 6px #27c93f; }
+        .btn-close { background: #ff5f56; box-shadow: 0 0 6px #ff5f56; }
 
         .window-body {
             flex: 1;
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto;
+            overflow-x: hidden;
             color: var(--text-primary);
-            -webkit-overflow-scrolling: touch;
         }
 
-        /* Event Cards */
-        .event-app-container {
+        /* Event Header & Contact Info */
+        .app-top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            gap: 24px;
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.06);
+        }
+        .compact-logo-mount {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex: 1;
+            min-width: 0;
+        }
+        .compact-logo-slot {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px currentColor;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .compact-event-icon {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+        }
+        .compact-logo-text {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 5px;
+            min-width: 0;
         }
-        .event-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
-            border-radius: 12px;
+        .compact-logo-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
-        .event-section h3 {
-            font-size: 0.92rem;
-            color: var(--cyan-accent);
-            margin-bottom: 8px;
+        .compact-logo-sub {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+        }
+        
+        .event-head-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+            padding-left: 24px;
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            flex-shrink: 0;
+            gap: 5px;
+            min-width: 190px;
+        }
+        .head-role-label {
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        .head-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+        }
+        .head-contact {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-top: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .event-app-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .event-section {
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 18px 22px;
+            border-radius: 14px;
+        }
+        .event-section h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .event-section p, .event-section ul {
-            font-size: 0.86rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.6;
             color: var(--text-secondary);
         }
         .event-section ul { padding-left: 20px; }
         .event-actions {
             display: flex;
-            gap: 12px;
-            margin-top: 10px;
-            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 12px;
         }
         .reg-btn, .brochure-link-btn {
             flex: 1;
-            min-width: 170px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-radius: var(--radius-btn);
             text-decoration: none;
             text-align: center;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.94rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            gap: 10px;
             border: none;
-        }
-        .reg-btn {
-            background: linear-gradient(135deg, var(--cyan-accent), #0088ff);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
         }
         .brochure-link-btn {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             color: #fff;
-            border: 1px solid var(--aero-glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
         .reg-btn:hover, .brochure-link-btn:hover {
             transform: translateY(-2px);
             opacity: 0.95;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
 
-        /* Right Click Context Menu */
         #desktopContextMenu {
             position: fixed;
             background: var(--aero-glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--aero-glass-border);
             border-radius: 12px;
-            padding: 8px;
+            padding: 6px;
             width: 180px;
             z-index: 99999;
             display: none;
@@ -439,28 +603,26 @@
         }
         #desktopContextMenu.visible { display: block; }
         .menu-item {
-            padding: 8px 12px;
-            font-size: 0.82rem;
+            padding: 9px 12px;
+            font-size: 0.85rem;
             color: var(--text-primary);
             border-radius: 8px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .menu-item:hover {
-            background: rgba(0, 240, 255, 0.25);
-            color: var(--cyan-accent);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
 
-        /* Popup / Modal */
         #judgingPopup {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             z-index: 1000000;
             display: flex;
             align-items: center;
@@ -469,51 +631,35 @@
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
-        #judgingPopup.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        #judgingPopup.show { opacity: 1; visibility: visible; }
         .popup-card {
             background: var(--aero-glass-bg);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
             border: 1px solid var(--aero-glass-border);
             border-radius: 24px;
-            padding: 40px;
+            padding: 34px;
             width: 90%;
-            max-width: 450px;
+            max-width: 440px;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
             transform: scale(0.9);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        #judgingPopup.show .popup-card {
-            transform: scale(1);
-        }
+        #judgingPopup.show .popup-card { transform: scale(1); }
         .popup-icon {
-            font-size: 3.5rem;
-            color: var(--cyan-accent);
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px var(--cyan-accent);
+            font-size: 3rem;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
+            text-shadow: 0 0 18px var(--primary-accent);
         }
-        .popup-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-        .popup-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
+        .popup-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .popup-text { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.55; }
 
-        /* Notification Toast */
         #notificationContainer {
             position: fixed;
-            top: 95px;
-            right: 25px;
+            top: 85px;
+            right: 22px;
             z-index: 10000;
             display: flex;
             flex-direction: column;
@@ -524,74 +670,104 @@
             background: var(--aero-glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--aero-glass-border);
-            border-left: 4px solid var(--cyan-accent);
+            border-left: 4px solid var(--primary-accent);
             padding: 12px 16px;
             border-radius: 10px;
             min-width: 240px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
         }
 
-        /* Mobile & Responsive Tweaks */
+        .pdf-embed-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .pdf-embed-frame {
+            width: 100%;
+            height: calc(100% - 36px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 1100px) {
             .wallpaper-logo-mount { display: none; }
         }
         @media (max-width: 768px) {
-            #dynamicIsland { width: 92vw; height: 56px; padding: 0 16px; }
+            #dynamicIsland { width: 92vw; height: 56px; padding: 0 14px; }
             .os-window {
-                width: 94vw !important;
-                /* Leave room for taskbar at the bottom */
-                height: calc(100vh - 160px) !important;
-                left: 3vw !important;
-                top: 85px !important;
+                width: 96vw !important;
+                height: calc(100vh - 140px) !important;
+                left: 2vw !important;
+                top: 70px !important;
             }
             .event-actions { flex-direction: column; }
             .reg-btn, .brochure-link-btn { width: 100%; }
-            #taskbar {
-                width: 96vw;
-                padding: 12px;
-                bottom: 15px;
-                /* Allow horizontal scrolling on very small devices */
-                overflow-x: auto; 
-                justify-content: flex-start;
+            #taskbar { width: 96vw; padding: 8px; bottom: 12px; overflow-x: auto; }
+            #taskbar::-webkit-scrollbar { display: none; }
+            .app-top-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+            }
+            .event-head-card {
+                align-items: flex-start;
+                text-align: left;
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.12);
+                padding-top: 12px;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Boot Loader -->
+    <!-- Custom Cursor Elements -->
+    <div id="customCursor"></div>
+    <div id="customCursorDot"></div>
+
     <div id="bootScreen">
         <div class="boot-spinner"></div>
         <div class="boot-title">STARTING INNOVATEX OS</div>
     </div>
 
-    <!-- Canvas Particle Background -->
+    <!-- Interactable Canvas Wallpaper -->
     <canvas id="wallpaperCanvas"></canvas>
 
-    <!-- Desktop Workspace -->
     <div id="workspace">
         
-        <!-- Wallpaper Mounting Bays for Logos -->
-        <div class="wallpaper-logo-mount left">
+        <!-- School Logo Mount -->
+        <div class="wallpaper-logo-mount left" id="schoolLogoMount">
             <div class="logo-slot">
-                <i class="fa-solid fa-school"></i>
+                <img id="schoolLogoImg" src="HIS.png" alt="School Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <i class="fa-solid fa-school" style="display:none;"></i>
             </div>
-            <div class="logo-label">School Logo</div>
-            <div class="logo-subtext">Host Institution</div>
+            <div class="logo-label" id="schoolLogoLabel">Harvest International School</div>
+            <div class="logo-subtext">Innovation Campus</div>
         </div>
 
-        <div class="wallpaper-logo-mount right">
+        <!-- InnovateX Logo Mount -->
+        <div class="wallpaper-logo-mount right" id="festLogoMount">
             <div class="logo-slot">
-                <i class="fa-solid fa-rocket"></i>
+                <img id="festLogoImg" src="Logo.png" alt="InnovateX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <i class="fa-solid fa-rocket" style="display:none;"></i>
             </div>
-            <div class="logo-label">InnovateX 2026</div>
-            <div class="logo-subtext">Official Tech Fest</div>
+            <div class="logo-label" id="festLogoLabel">InnovateX 2026</div>
+            <div class="logo-subtext"></div>
         </div>
 
-        <!-- Dynamic Aero Island -->
+        <!-- Dynamic Island -->
         <div id="dynamicIsland">
             <div class="island-section">
-                <div class="island-brand">Harvest InnovateX</div>
+                <div class="island-logo-slot">
+                    <img id="islandLogoImg" src="Logo.png" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <i class="fa-solid fa-rocket" style="display:none;"></i>
+                </div>
+                <div class="island-brand" id="islandBrandText">InnovateX</div>
             </div>
             <div class="island-section">
                 <div class="island-time" id="islandClock">00:00:00 AM</div>
@@ -600,28 +776,45 @@
 
         <div id="notificationContainer"></div>
 
-        <!-- Aero Taskbar -->
+        <!-- Taskbar -->
         <div id="taskbar">
-            <div id="taskbarAppsContainer" style="display: flex; gap: 10px; margin: 0 auto;">
-                <div class="taskbar-app" onclick="toggleApp('binary_blitz')" title="Binary Blitz"><i class="fa-solid fa-code"></i></div>
-                <div class="taskbar-app" onclick="toggleApp('canvas_clash')" title="Canvas Clash"><i class="fa-solid fa-palette"></i></div>
-                <div class="taskbar-app" onclick="toggleApp('scene_sync')" title="Scene Sync"><i class="fa-solid fa-video"></i></div>
-                <div class="taskbar-app" onclick="toggleApp('capital_core')" title="Capital Core"><i class="fa-solid fa-coins"></i></div>
-                <div class="taskbar-app" onclick="toggleApp('brochure')" title="Pamphlet"><i class="fa-solid fa-book-open"></i></div>
-                <div class="taskbar-app" onclick="toggleApp('credits')" title="Credits"><i class="fa-solid fa-award"></i></div>
-                <div class="taskbar-app" onclick="showPopup()" title="Judging Portal"><i class="fa-solid fa-gavel"></i></div>
+            <div id="taskbarAppsContainer" style="display: flex; gap: 10px; margin: 0 auto; padding-right: 4px;">
+                
+                <div class="taskbar-app app-binary" onclick="toggleApp('binary_blitz')" title="Binary Blitz">
+                    <img src="BB.png" alt="Binary" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-code" style="display:none;"></i>
+                </div>
+                
+                <div class="taskbar-app app-canvas" onclick="toggleApp('canvas_clash')" title="Canvas Clash">
+                    <img src="CCL.png" alt="Canvas" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-palette" style="display:none;"></i>
+                </div>
+                
+                <div class="taskbar-app app-scene" onclick="toggleApp('scene_sync')" title="Scene Sync">
+                    <img src="SS.png" alt="Scene" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-video" style="display:none;"></i>
+                </div>
+                
+                <div class="taskbar-app app-capital" onclick="toggleApp('capital_core')" title="Capital Core">
+                    <img src="CCO.png" alt="Capital" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-coins" style="display:none;"></i>
+                </div>
+
+                <div class="taskbar-app app-grey" onclick="toggleApp('brochure')" title="Brochure"><i class="fa-solid fa-book-open"></i></div>
+                <div class="taskbar-app app-grey" onclick="toggleApp('credits')" title="Credits"><i class="fa-solid fa-award"></i></div>
+                <div class="taskbar-app app-grey" onclick="showPopup()" title="Judging Portal"><i class="fa-solid fa-gavel"></i></div>
             </div>
         </div>
     </div>
 
-    <!-- Judging Portal Popup Modal -->
+    <!-- Judging / Admin Popup -->
     <div id="judgingPopup">
         <div class="popup-card">
             <i class="fa-solid fa-server popup-icon"></i>
             <h2 class="popup-title">Judging & User Submission Portal</h2>
             <p class="popup-text">You are about to access the secure administrative and submission portal. Please ensure you have your credentials ready.</p>
             <div style="display: flex; flex-direction: column; gap: 12px;">
-                <button onclick="window.location.href='judge.html'" class="reg-btn" style="width: 100%;">
+                <button onclick="window.location.href='judge.html'" class="reg-btn" style="width: 100%; background: var(--primary-accent); color: #fff;">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> Redirect Now
                 </button>
                 <button onclick="hidePopup()" class="brochure-link-btn" style="width: 100%;">
@@ -638,18 +831,157 @@
     </div>
 
     <script>
-        /* Fast Boot Engine */
+        /* =========================================================================
+           CENTRALIZED CONFIGURATION & MODIFICATION PORTAL
+           ========================================================================= */
+        const OS_CONFIG = {
+            schoolLogo: {
+                imgUrl: "HIS.png",
+                label: "Harvest International School",
+                subtext: "Host Institution"
+            },
+            festLogo: {
+                imgUrl: "Logo.png",
+                title: "InnovateX",
+                subtext: ""
+            },
+            events: {
+                binary_blitz: {
+                    title: "Tech → Binary Blitz",
+                    windowTitleIcon: "BB.png",
+                    iconImg: "BB.png",
+                    iconFallback: "fa-code",
+                    accentColor: "var(--binary-blitz-accent)",
+                    headName: "[Event Head Name]",
+                    headContact: "[Contact Number]",
+                    aboutText: "Binary Blitz is a live, zero-day coding challenge focusing on emerging & future technology (Grades 6-10). Participants solve live problems using any programming language or AI tools, with mandatory GitHub code submissions.",
+                    categories: [
+                        "Grades 6-10 (Junior & Senior Divisions)",
+                        "AI Permitted (Mandatory AI Prompt Log)",
+                        "Device Compulsory & GitHub Repository Required"
+                    ],
+                    samples: [
+                        "Autonomous Delivery Robots: Sensor obstruction detection algorithm.",
+                        "Smart Wi-Fi Channel Selection: Network interference analyzer & router recommendation.",
+                        "Autonomous Drone Charging: Battery optimization and route planner."
+                    ],
+                    pdfUrl: "InnovateX-BinaryBlitz.pdf",
+                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfxnLsfzZ8XxMQdMpGpQvwi0zsUsKIKAY3l6fA95xBiUVN5-w/viewform?usp=dialog"
+                },
+                canvas_clash: {
+                    title: "Design → Canvas Clash",
+                    windowTitleIcon: "CCL.png",
+                    iconImg: "CCL.png",
+                    iconFallback: "fa-palette",
+                    accentColor: "var(--canvas-clash-accent)", /* Yellow */
+                    headName: "[Event Head Name]",
+                    headContact: "[Contact Number]",
+                    aboutText: "Canvas Clash is a live zero-day design sprint testing spatial, conceptual, and physical product design using personal digital design software under real-time constraints.",
+                    categories: [
+                        "Category 01 (Grades 6-8 Junior): Future & Conceptual Design (Human Only)",
+                        "Category 02 (Grades 9-10 Senior): Industrial & Spatial Design (AI Permitted + Prompt Log)"
+                    ],
+                    samples: [
+                        "Smart Clothing for Changing Weather: Adaptive garments for daily shifts.",
+                        "The AR Museum Experience: Balanced physical artifact and digital overlay.",
+                        "The Lunar Living Unit: Modular multi-use living space for settlements."
+                    ],
+                    pdfUrl: "InnovateX-CanvasClash.pdf",
+                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdqjaYfgVaBByms9EjGsxtA-i_1uu684R2hMTyqgSGSg45MRQ/viewform?usp=dialog"
+                },
+                scene_sync: {
+                    title: "Media → Scene Sync",
+                    windowTitleIcon: "SS.png",
+                    iconImg: "SS.png",
+                    iconFallback: "fa-video",
+                    accentColor: "var(--scene-sync-accent)",
+                    headName: "[Event Head Name]",
+                    headContact: "[Contact Number]",
+                    aboutText: "Scene Sync challenges creators (Grades 8-10) to create, edit, package, and pitch compelling digital media, reels, trailers, and creator economy assets under pressure.",
+                    categories: [
+                        "Digital Content & Creator Economy (Grades 8-10)",
+                        "AI Permitted (Mandatory Prompt Log)",
+                        "Device Compulsory (Use preferred video/design software)"
+                    ],
+                    samples: [
+                        "The 100K Reel: 30-45 second video explaining facial recognition systems.",
+                        "The Night Market Trailer: Cinematic promo created from supplied raw footage.",
+                        "The Click Problem: Thumbnails, title concepts, and opening hooks."
+                    ],
+                    pdfUrl: "InnovateX-SceneSync.pdf",
+                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLScSI01APL7q1_8D0m_Ee4aui6ryT0GSTkk2PgRJi-f4VQlVwQ/viewform?usp=dialog"
+                },
+                capital_core: {
+                    title: "Finance → Capital Core",
+                    windowTitleIcon: "CCO.png",
+                    iconImg: "CCO.png",
+                    iconFallback: "fa-coins",
+                    accentColor: "var(--capital-core-accent)",
+                    headName: "[Event Head Name]",
+                    headContact: "[Contact Number]",
+                    aboutText: "Capital Core is a zero-day business strategy and financial challenge requiring real-world analysis, defensible strategy formulation, and live pitching.",
+                    categories: [
+                        "Category 01 (Grades 6-8 Junior): Business Strategy & Growth (Human Only)",
+                        "Category 02 (Grades 9-10 Senior): Investment & Markets (AI Permitted + Prompt Log)"
+                    ],
+                    samples: [
+                        "The After-4 PM Café: Strategy to boost off-peak weekday afternoon customers.",
+                        "The 5 Lakh Portfolio: Balanced investment model across stocks, bonds, and gold.",
+                        "The 2 Crore Expansion: Venture capital vs business loan strategy analysis."
+                    ],
+                    pdfUrl: "InnovateX-CapitalCore.pdf",
+                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLScC1ZRVANBSLjv_64uWK5cUlWjtB_tfyuoYSgKkcEQ49_6KqQ/viewform?usp=dialog"
+                }
+            }
+        };
+
+        /* Custom Cursor Movement Logic */
+        const cursor = document.getElementById('customCursor');
+        const cursorDot = document.getElementById('customCursorDot');
+        let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let cursorCoords = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+        window.addEventListener('mousemove', (e) => {
+            mousePos.x = e.clientX;
+            mousePos.y = e.clientY;
+            cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+        });
+
+        function animateCursor() {
+            cursorCoords.x += (mousePos.x - cursorCoords.x) * 0.25;
+            cursorCoords.y += (mousePos.y - cursorCoords.y) * 0.25;
+            cursor.style.transform = `translate(${cursorCoords.x}px, ${cursorCoords.y}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) {
+                document.body.classList.add('cursor-hover');
+            }
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) {
+                document.body.classList.remove('cursor-hover');
+            }
+        });
+
         window.addEventListener('load', () => {
+            document.getElementById('schoolLogoImg').src = OS_CONFIG.schoolLogo.imgUrl;
+            document.getElementById('schoolLogoLabel').textContent = OS_CONFIG.schoolLogo.label;
+
+            document.getElementById('festLogoImg').src = OS_CONFIG.festLogo.imgUrl;
+            document.getElementById('festLogoLabel').textContent = OS_CONFIG.festLogo.title;
+            document.getElementById('islandLogoImg').src = OS_CONFIG.festLogo.imgUrl;
+            document.getElementById('islandBrandText').textContent = OS_CONFIG.festLogo.title;
+
             setTimeout(() => {
                 const bootScreen = document.getElementById('bootScreen');
                 if (bootScreen) bootScreen.classList.add('fade-out');
-                
-                // Show judging popup 1.5 seconds after boot by default
-                setTimeout(showPopup, 1500);
+                setTimeout(showPopup, 1400);
             }, 300);
         });
 
-        /* Popup Logic */
         function showPopup() {
             document.getElementById('judgingPopup').classList.add('show');
         }
@@ -658,10 +990,11 @@
             document.getElementById('judgingPopup').classList.remove('show');
         }
 
-        /* Background Canvas Particle Network */
+        /* Interactable Canvas Wallpaper */
         const canvas = document.getElementById('wallpaperCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null;
         let particles = [];
+        const mouse = { x: null, y: null, radius: 130 };
 
         function resizeCanvas() {
             if (!canvas) return;
@@ -671,24 +1004,69 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        window.addEventListener('click', (e) => {
+            for (let i = 0; i < 8; i++) {
+                particles.push(new Particle(e.clientX, e.clientY, true));
+            }
+        });
+
         class Particle {
-            constructor() { this.reset(); }
-            reset() {
+            constructor(x, y, isBurst = false) {
+                this.reset(x, y, isBurst);
+            }
+            reset(x, y, isBurst) {
                 if (!canvas) return;
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.8;
-                this.vy = (Math.random() - 0.5) * 0.8;
+                this.x = x !== undefined ? x : Math.random() * canvas.width;
+                this.y = y !== undefined ? y : Math.random() * canvas.height;
+                
+                if (isBurst) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 1;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                } else {
+                    this.vx = (Math.random() - 0.5) * 0.8;
+                    this.vy = (Math.random() - 0.5) * 0.8;
+                }
+                
                 this.radius = Math.random() * 2 + 1;
-                const colors = ['rgba(0, 240, 255, 0.8)', 'rgba(255, 0, 128, 0.8)', 'rgba(0, 136, 255, 0.8)'];
+                const colors = ['rgba(6, 182, 212, 0.65)', 'rgba(245, 158, 11, 0.55)', 'rgba(239, 68, 68, 0.5)', 'rgba(16, 185, 129, 0.45)'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.life = isBurst ? 100 : null;
             }
             update() {
                 if (!canvas) return;
                 this.x += this.vx;
                 this.y += this.vy;
+
+                if (this.life !== null) {
+                    this.life--;
+                    if (this.life <= 0) this.reset();
+                }
+
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx / dist) * force * 1.5;
+                        this.y -= (dy / dist) * force * 1.5;
+                    }
+                }
             }
             draw() {
                 if (!ctx) return;
@@ -699,7 +1077,7 @@
             }
         }
 
-        const particleCount = window.innerWidth < 768 ? 35 : 65;
+        const particleCount = window.innerWidth < 768 ? 40 : 75;
         for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
         function animateWallpaper() {
@@ -712,11 +1090,27 @@
                         let dx = particles[i].x - particles[j].x;
                         let dy = particles[i].y - particles[j].y;
                         let dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 100) {
+                        if (dist < 110) {
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 100)})`;
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 * (1 - dist / 110)})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    for (let i = 0; i < particles.length; i++) {
+                        let dx = mouse.x - particles[i].x;
+                        let dy = mouse.y - particles[i].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(mouse.x, mouse.y);
+                            ctx.lineTo(particles[i].x, particles[i].y);
+                            ctx.strokeStyle = `rgba(239, 68, 68, ${0.2 * (1 - dist / 130)})`;
                             ctx.lineWidth = 1;
                             ctx.stroke();
                         }
@@ -727,7 +1121,6 @@
         }
         animateWallpaper();
 
-        /* Dynamic Island Clock */
         function updateClock() {
             const clockEl = document.getElementById('islandClock');
             if (clockEl) clockEl.textContent = new Date().toLocaleTimeString();
@@ -735,7 +1128,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        /* Context Menu */
         const contextMenu = document.getElementById('desktopContextMenu');
         window.addEventListener('contextmenu', (e) => {
             e.preventDefault();
@@ -755,14 +1147,14 @@
             const toast = document.createElement('div');
             toast.className = 'notification-toast';
             toast.innerHTML = `
-                <div style="font-weight:700; color:var(--cyan-accent); font-size:0.82rem; margin-bottom:2px;">${title}</div>
-                <div style="font-size:0.78rem; color:var(--text-secondary);">${msg}</div>
+                <div style="font-weight:700; color:var(--primary-accent); font-size:0.85rem; margin-bottom:3px;">${title}</div>
+                <div style="font-size:0.8rem; color:var(--text-secondary);">${msg}</div>
             `;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.2s ease';
-                setTimeout(() => toast.remove(), 200);
+                toast.style.transition = 'opacity 0.25s ease';
+                setTimeout(() => toast.remove(), 250);
             }, 3000);
         }
 
@@ -774,31 +1166,48 @@
             }
         }
 
-        /* Event Content Generator */
-        function createEventAppContent(aboutText, topics, problemStatements, brochurePdfUrl, registerFormUrl) {
+        function createCoreAppContent(config) {
             return `
+                <div class="app-top-banner">
+                    <div class="compact-logo-mount">
+                        <div class="compact-logo-slot" style="color:${config.accentColor};">
+                            <img src="${config.iconImg}" alt="Event Icon" class="compact-event-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <i class="fa-solid ${config.iconFallback}" style="display:none; font-size:1.6rem;"></i>
+                        </div>
+                        <div class="compact-logo-text">
+                            <div class="compact-logo-title" style="color:${config.accentColor};">${config.title.split('→')[1] || config.title}</div>
+                            <div class="compact-logo-sub">InnovateX 2026 • Official Track</div>
+                        </div>
+                    </div>
+                    <div class="event-head-card">
+                        <span class="head-role-label">Event Head</span>
+                        <span class="head-name">${config.headName}</span>
+                        <span class="head-contact"><i class="fa-solid fa-phone"></i> ${config.headContact}</span>
+                    </div>
+                </div>
+
                 <div class="event-app-container">
                     <section class="event-section">
-                        <h3><i class="fa-solid fa-circle-info"></i> Track Overview</h3>
-                        <p>${aboutText}</p>
+                        <h3 style="color:${config.accentColor};"><i class="fa-solid fa-circle-info"></i> Track Overview & Rules</h3>
+                        <p>${config.aboutText}</p>
                     </section>
                     
                     <section class="event-section">
-                        <h3><i class="fa-solid fa-layer-group"></i> Domain Focus</h3>
-                        <ul>${topics.map(t => `<li>${t}</li>`).join('')}</ul>
+                        <h3 style="color:${config.accentColor};"><i class="fa-solid fa-layer-group"></i> Key Categories / Divisions</h3>
+                        <ul>${config.categories.map(c => `<li>${c}</li>`).join('')}</ul>
                     </section>
                     
                     <section class="event-section">
-                        <h3><i class="fa-solid fa-bolt"></i> Key Challenges</h3>
-                        <ul>${problemStatements.map(p => `<li>${p}</li>`).join('')}</ul>
+                        <h3 style="color:${config.accentColor};"><i class="fa-solid fa-bolt"></i> Sample Zero-Day Briefs</h3>
+                        <ul>${config.samples.map(s => `<li>${s}</li>`).join('')}</ul>
                     </section>
 
                     <div class="event-actions">
-                        <a href="${brochurePdfUrl}" target="_blank" class="brochure-link-btn">
-                            <i class="fa-solid fa-file-pdf"></i> Domain Brochure
-                        </a>
-                        <a href="${registerFormUrl}" target="_blank" class="reg-btn">
-                            <i class="fa-solid fa-pen-to-square"></i> Domain Registration Form
+                        <button onclick="openBrochurePDF('${config.pdfUrl}')" class="brochure-link-btn">
+                            <i class="fa-solid fa-file-pdf"></i> View Domain PDF
+                        </button>
+                        <a href="${config.registerUrl}" target="_blank" class="reg-btn" style="background:${config.accentColor}; color:#fff;">
+                            <i class="fa-solid fa-pen-to-square"></i> Track Registration
                         </a>
                     </div>
                 </div>
@@ -806,78 +1215,53 @@
         }
 
         const appData = {
-            binary_blitz: {
-                title: "Tech → Binary Blitz",
-                icon: "fa-code",
-                content: createEventAppContent(
-                    "Binary Blitz is our hackathon track focusing on software design, AI integrations, and high-performance system algorithms.",
-                    ["Low-Latency Systems", "Autonomous AI Agents", "Web Applications"],
-                    ["Build an automated distributed resource scheduler.", "Create a zero-trust multi-agent framework."],
-                    "Binary_Blitz_Brochure.pdf",
-                    "https://docs.google.com/forms/d/e/1FAIpQLSfBINARY_BLITZ_UNIQUE_FORM/viewform"
-                )
-            },
-            canvas_clash: {
-                title: "Design → Canvas Clash",
-                icon: "fa-palette",
-                content: createEventAppContent(
-                    "Canvas Clash tests UI/UX design, design systems, and responsive spatial interfaces.",
-                    ["Design Systems & Tokens", "Accessibility & Ergonomics", "3D Web Visuals"],
-                    ["Design a scalable real-time telemetry dashboard.", "Construct an accessible UI for spatial computing Interfaces."],
-                    "Canvas_Clash_Brochure.pdf",
-                    "https://docs.google.com/forms/d/e/1FAIpQLScCANVAS_CLASH_UNIQUE_FORM/viewform"
-                )
-            },
-            scene_sync: {
-                title: "Media → Scene Sync",
-                icon: "fa-video",
-                content: createEventAppContent(
-                    "Scene Sync challenges video editors, content strategists, and multimedia creators to produce motion visuals.",
-                    ["Dynamic Audio Sync", "Short Storytelling", "Brand Motion Design"],
-                    ["Construct a high-tempo 60-second cyberpunk product trailer.", "Produce an animation sequence for brand launch."],
-                    "Scene_Sync_Brochure.pdf",
-                    "https://docs.google.com/forms/d/e/1FAIpQLScSCENE_SYNC_UNIQUE_FORM/viewform"
-                )
-            },
-            capital_core: {
-                title: "Finance → Capital Core",
-                icon: "fa-coins",
-                content: createEventAppContent(
-                    "Capital Core covers fintech infrastructure, financial tracking, venture models, and portfolio logic.",
-                    ["Fintech Frameworks", "Algorithmic Risk Assessment", "Automated Bookkeeping"],
-                    ["Engineer a dynamic cashflow forecasting model.", "Build an automated real-time expense splitting protocol."],
-                    "Capital_Core_Brochure.pdf",
-                    "https://docs.google.com/forms/d/e/1FAIpQLScCAPITAL_CORE_UNIQUE_FORM/viewform"
-                )
-            },
+            binary_blitz: OS_CONFIG.events.binary_blitz,
+            canvas_clash: OS_CONFIG.events.canvas_clash,
+            scene_sync: OS_CONFIG.events.scene_sync,
+            capital_core: OS_CONFIG.events.capital_core,
             brochure: {
-                title: "General Pamphlet",
-                icon: "fa-book-open",
+                title: "Master Brochure",
+                windowTitleIcon: "Logo.png",
+                iconFallback: "fa-book-open",
                 content: `
-                    <div style="height: 100%; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px;">
-                        <i class="fa-solid fa-file-pdf" style="font-size: 3.2rem; color: var(--cyan-accent); text-shadow: 0 0 15px var(--cyan-accent);"></i>
-                        <p style="color: var(--text-secondary); max-width: 400px; font-size: 0.88rem;">
-                            Access the complete Harvest InnovateX master event guide, schedule, rules, and global reward tracks.
-                        </p>
-                        <a href="InnovateX_Master_Brochure.pdf" target="_blank" class="brochure-link-btn" style="width: auto; padding: 12px 24px;">
-                            <i class="fa-solid fa-download"></i> Open Master Pamphlet PDF
-                        </a>
+                    <div class="pdf-embed-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 4px;">
+                            <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:600;">
+                                <i class="fa-solid fa-file-pdf" style="color:var(--primary-accent);"></i> InnovateX-Master-Brochure.pdf
+                            </span>
+                            <a href="InnovateX-Master-Brochure.pdf" target="_blank" class="brochure-link-btn" style="padding:5px 12px; font-size:0.78rem; width:auto; flex:none;">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open External
+                            </a>
+                        </div>
+                        <iframe src="InnovateX-Master-Brochure.pdf" class="pdf-embed-frame" id="brochureIframe"></iframe>
                     </div>
                 `
             },
             credits: {
                 title: "System Credits",
-                icon: "fa-award",
+                windowTitleIcon: "Logo.png",
+                iconFallback: "fa-award",
                 content: `
                     <div class="event-section">
-                        <h3><i class="fa-solid fa-laptop-code"></i> Engineering</h3>
-                        <p>Harvest InnovateX OS built with vanilla Web APIs, hardware-accelerated canvas animations, and GPU-optimized glassmorphism UI elements.</p>
+                        <h3 style="color:var(--primary-accent);"><i class="fa-solid fa-laptop-code"></i> Engineering & Design</h3>
+                        <p>Harvest InnovateX OS built with vanilla Web APIs, hardware-accelerated interactable canvas animations, professional custom cursor, fully modular icon bindings, and responsive layout safety constraints.</p>
                     </div>
                 `
             }
         };
 
-        /* Window System Logic */
+        function openBrochurePDF(pdfUrl) {
+            if (!activeWindows['brochure']) {
+                openApp('brochure');
+            } else {
+                restoreApp('brochure');
+            }
+            const iframe = document.getElementById('brochureIframe');
+            if (iframe) {
+                iframe.src = pdfUrl;
+            }
+        }
+
         let activeWindows = {};
         let windowStates = {}; 
         let highestZIndex = 100;
@@ -910,16 +1294,33 @@
             win.className = 'os-window';
             win.dataset.appId = appId;
             
+            // Safe window bounding calculation to prevent crossing Dynamic Island & Taskbar
+            const safeTopMargin = 95;
+            const safeBottomMargin = 100;
+            const maxAllowedHeight = window.innerHeight - (safeTopMargin + safeBottomMargin);
+            const defaultHeight = Math.min(580, maxAllowedHeight);
+            const defaultWidth = Math.min(840, window.innerWidth - 60);
+
+            win.style.width = `${defaultWidth}px`;
+            win.style.height = `${defaultHeight}px`;
+
             if (!isMobile) {
-                const offset = (Object.keys(activeWindows).length % 5) * 20;
-                win.style.top = `${95 + offset}px`;
-                win.style.left = `${120 + offset}px`;
+                const offset = (Object.keys(activeWindows).length % 4) * 18;
+                const startTop = safeTopMargin + offset;
+                const startLeft = Math.max(30, (window.innerWidth - defaultWidth) / 2 + offset);
+                win.style.top = `${startTop}px`;
+                win.style.left = `${startLeft}px`;
             }
+
+            const winContent = data.content ? data.content : createCoreAppContent(data);
+            const titleIconHtml = data.windowTitleIcon 
+                ? `<img src="${data.windowTitleIcon}" alt="Icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><i class="fa-solid ${data.iconFallback}" style="display:none; ${data.accentColor ? 'color:' + data.accentColor : ''}"></i>`
+                : `<i class="fa-solid ${data.iconFallback}" style="${data.accentColor ? 'color:' + data.accentColor : ''}"></i>`;
 
             win.innerHTML = `
                 <div class="window-header">
                     <div class="window-title">
-                        <i class="fa-solid ${data.icon}"></i> ${data.title}
+                        ${titleIconHtml} ${data.title}
                     </div>
                     <div class="window-controls">
                         <button class="window-btn btn-minimize" title="Minimize"></button>
@@ -927,7 +1328,7 @@
                         <button class="window-btn btn-close" title="Close"></button>
                     </div>
                 </div>
-                <div class="window-body">${data.content}</div>
+                <div class="window-body">${winContent}</div>
             `;
 
             const header = win.querySelector('.window-header');
@@ -1002,10 +1403,9 @@
 
         function clearAllWindows() {
             Object.keys(activeWindows).forEach(appId => minimizeApp(appId));
-            triggerNotification("Workspace", "Windows minimized.");
+            triggerNotification("Workspace", "All windows minimized.");
         }
 
-        /* Smooth Window Dragging */
         function initDrag(e, win) {
             if (e.target.closest('.window-controls')) return;
             if (win.dataset.maximized === "true" || window.innerWidth <= 768) return;
@@ -1044,7 +1444,6 @@
             }
         }
 
-        /* Maximize/Restore Window Toggle */
         function toggleMaximizeWindow(appId) {
             const win = activeWindows[appId];
             if (!win) return;
@@ -1055,23 +1454,21 @@
 
         function maximizeWindowDimensions(win) {
             win.dataset.prevTop = win.style.top || "95px";
-            win.dataset.prevLeft = win.style.left || "120px";
-            win.dataset.prevWidth = win.style.width || "760px";
-            win.dataset.prevHeight = win.style.height || "520px";
+            win.dataset.prevLeft = win.style.left || "100px";
+            win.dataset.prevWidth = win.style.width || "840px";
+            win.dataset.prevHeight = win.style.height || "580px";
 
             win.style.top = "0px";
             win.style.left = "0px";
             win.style.width = "100vw";
             
-            // Adjust height for mobile devices to not cover the taskbar completely
             const isMobile = window.innerWidth <= 768;
-            win.style.height = isMobile ? "calc(100vh - 85px)" : "100vh";
+            win.style.height = isMobile ? "calc(100vh - 80px)" : "100vh";
             win.style.borderRadius = isMobile ? "var(--radius-main)" : "0px";
             win.dataset.maximized = "true";
             
             bringToFront(win);
             
-            // Do not hide the taskbar on mobile when maximized
             if (!isMobile) {
                 document.getElementById('taskbar').style.opacity = '0';
                 document.getElementById('taskbar').style.pointerEvents = 'none';
@@ -1081,10 +1478,10 @@
         }
 
         function restoreWindowDimensions(win) {
-            win.style.width = win.dataset.prevWidth || "760px";
-            win.style.height = win.dataset.prevHeight || "520px";
+            win.style.width = win.dataset.prevWidth || "840px";
+            win.style.height = win.dataset.prevHeight || "580px";
             win.style.top = win.dataset.prevTop || "95px";
-            win.style.left = win.dataset.prevLeft || "120px";
+            win.style.left = win.dataset.prevLeft || "100px";
             win.style.borderRadius = "var(--radius-main)";
             win.dataset.maximized = "false";
 
@@ -1093,47 +1490,6 @@
             document.getElementById('dynamicIsland').style.opacity = '1';
             document.getElementById('dynamicIsland').style.pointerEvents = 'auto';
         }
-
-        // =================================================================================
-        // SYSTEM LOGGING PROTOCOLS & THEME CONFIGURATION DICTIONARY 
-        // Simulated core configuration object to manage the underlying OS behavior scaling
-        // =================================================================================
-        const CoreArchitectureConfigs = {
-            sysInfo: { 
-                version: "2.1.4", 
-                build: "5581-ALPHA",
-                architecture: "x64-WebAssembly-Emulated",
-                kernel: "HTML5/ES2023",
-                renderer: "Canvas2D API",
-                compilerFlag: "OPTIMIZED_GPU_ACCEL"
-            },
-            memoryStates: {
-                allocations: Array.from({ length: 1500 }, (_, i) => ({
-                    ptr: `0x${(1000 + i).toString(16).padStart(8, '0')}`,
-                    size: Math.floor(Math.random() * 1024),
-                    flag: i % 2 === 0 ? "FREE" : "ALLOCATED",
-                    timestamp: Date.now() - (i * 1000)
-                }))
-            },
-            telemetry: {
-                fpsHistory: [],
-                eventListeners: [],
-                activeNodes: document.querySelectorAll('*').length
-            },
-            securityTokens: {
-                session: "sess_v2_981249814abc",
-                validationNode: "node-blr-1a",
-                encryption: "AES-256-GCM"
-            }
-        };
-
-        // System Diagnostic Loop (Simulation)
-        setInterval(() => {
-            if(CoreArchitectureConfigs.telemetry.fpsHistory.length > 100) {
-                CoreArchitectureConfigs.telemetry.fpsHistory.shift();
-            }
-            CoreArchitectureConfigs.telemetry.fpsHistory.push(Math.random() * 60);
-        }, 1000);
     </script>
 </body>
 </html>
