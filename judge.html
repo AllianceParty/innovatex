@@ -10,11 +10,57 @@
         :root {
             --bg-color: #0b0f19;
             --panel-bg: #111827;
-            --neon-cyan: #00e5ff;
+            --theme-color: #00e5ff; /* Default Theme Color */
+            --theme-glow: rgba(0, 229, 255, 0.4);
+            --theme-bg-glow: rgba(0, 229, 255, 0.08);
             --neon-pink: #ff007f;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
         }
+
+        /* --- DOMAIN THEMES (SMOOTH TRANSITIONS) --- */
+        body {
+            transition: background-color 0.8s ease, color 0.5s ease;
+        }
+        body.theme-binary {
+            --theme-color: #0088ff;
+            --theme-glow: rgba(0, 136, 255, 0.5);
+            --theme-bg-glow: rgba(0, 136, 255, 0.15);
+        }
+        body.theme-canvas {
+            --theme-color: #ffcc00;
+            --theme-glow: rgba(255, 204, 0, 0.5);
+            --theme-bg-glow: rgba(255, 204, 0, 0.15);
+        }
+        body.theme-scene {
+            --theme-color: #ff6600;
+            --theme-glow: rgba(255, 102, 0, 0.5);
+            --theme-bg-glow: rgba(255, 102, 0, 0.15);
+        }
+        body.theme-capital {
+            --theme-color: #00ff66;
+            --theme-glow: rgba(0, 255, 102, 0.5);
+            --theme-bg-glow: rgba(0, 255, 102, 0.15);
+        }
+
+        /* --- CUSTOM MATCHING SCROLLBAR --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07090e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--theme-color);
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--theme-glow);
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffffff;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: var(--bg-color);
@@ -22,44 +68,63 @@
             font-family: 'Fira Code', monospace;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 10% 20%, var(--theme-bg-glow) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
         }
+
+        /* Smooth UI Transitions */
+        .panel, header, input, select, textarea, .tab-btn, .btn-neon, .countdown-banner, .file-upload-btn, .domain-badge {
+            transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease, color 0.5s ease;
+        }
+
         header {
             text-align: center;
             padding: 1.5rem 1rem;
-            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-            background: rgba(11, 15, 25, 0.8);
+            border-bottom: 1px solid var(--theme-glow);
+            background: rgba(11, 15, 25, 0.85);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        .logo-area { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 0.5rem; }
-        .logo-img { height: 50px; border-radius: 4px; filter: drop-shadow(0 0 5px var(--neon-cyan)); }
-        .harvest-logo { height: 55px; filter: drop-shadow(0 0 5px var(--neon-pink)); }
+        .logo-area { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .logo-img { height: 55px; border-radius: 6px; filter: drop-shadow(0 0 8px var(--theme-glow)); }
+        .harvest-logo { height: 55px; border-radius: 6px; filter: drop-shadow(0 0 8px var(--neon-pink)); }
+        
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
             letter-spacing: 2px;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            background: linear-gradient(90deg, var(--theme-color), var(--neon-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: 0.5s ease;
         }
-        .tagline { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; margin-top: 10px; }
+        .tagline { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; }
         .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
         
+        /* Event Badge Indicator */
+        .domain-badge-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--theme-color);
+            box-shadow: 0 0 10px var(--theme-glow);
+            display: none;
+            object-fit: cover;
+        }
+
         /* Countdown Banner */
         .countdown-banner {
             background: var(--panel-bg);
-            border: 1px solid var(--neon-cyan);
+            border: 1px solid var(--theme-color);
             border-radius: 8px;
             padding: 1.5rem;
             text-align: center;
             margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 15px var(--theme-glow);
         }
-        .countdown-banner h3 { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); margin-bottom: 0.8rem; }
+        .countdown-banner h3 { font-family: 'Orbitron', sans-serif; color: var(--theme-color); margin-bottom: 0.8rem; }
         .timer-grid { display: flex; justify-content: center; gap: 2rem; font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; }
         .timer-block span { display: block; font-size: 0.7rem; color: var(--text-muted); font-family: 'Fira Code', monospace; }
         
@@ -74,9 +139,8 @@
             font-weight: 600;
             border-radius: 4px;
             cursor: pointer;
-            transition: 0.3s;
         }
-        .tab-btn.active, .tab-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+        .tab-btn.active, .tab-btn:hover { border-color: var(--theme-color); color: var(--theme-color); background: var(--theme-bg-glow); box-shadow: 0 0 12px var(--theme-glow); }
         .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
         .tab-content.active { display: block; }
         
@@ -84,7 +148,7 @@
 
         /* Panels & Forms */
         .panel { background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2.5rem; margin-bottom: 2rem; }
-        .panel h2 { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; margin-bottom: 1.5rem; border-left: 4px solid var(--neon-pink); padding-left: 12px; }
+        .panel h2 { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; margin-bottom: 1.5rem; border-left: 4px solid var(--theme-color); padding-left: 12px; display: flex; align-items: center; gap: 10px; }
         .form-group { margin-bottom: 1.2rem; }
         label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
         input, select, textarea {
@@ -92,7 +156,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: var(--text-main);
             font-family: 'Fira Code', monospace; font-size: 0.95rem;
         }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 8px rgba(0, 229, 255, 0.3); }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-glow); }
         
         /* Custom Neon File Upload Button */
         .file-upload-wrapper {
@@ -102,65 +166,42 @@
             width: 100%;
         }
         .file-upload-wrapper input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-            height: 100%;
-            width: 100%;
+            position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%;
         }
         .file-upload-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: #07090e;
-            border: 1px dashed var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: #07090e; border: 1px dashed var(--theme-color); color: var(--theme-color);
+            padding: 1rem; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9rem; cursor: pointer; text-align: center;
         }
         .file-upload-wrapper:hover .file-upload-btn {
-            background: rgba(0, 229, 255, 0.05);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-            border-color: var(--neon-cyan);
+            background: var(--theme-bg-glow); box-shadow: 0 0 12px var(--theme-glow); border-color: var(--theme-color);
         }
-        .file-upload-btn.file-chosen {
-            border-style: solid;
-            border-color: #00ff66;
-            color: #00ff66;
-        }
+        .file-upload-btn.file-chosen { border-style: solid; border-color: #00ff66; color: #00ff66; }
         
         .btn-neon {
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            background: linear-gradient(90deg, var(--theme-color), var(--neon-pink));
             color: #000; border: none; padding: 0.9rem 2rem;
             font-family: 'Orbitron', sans-serif; font-weight: 800; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 1rem;
-            transition: 0.3s;
         }
-        .btn-neon:hover { filter: brightness(1.2); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        .btn-neon:hover { filter: brightness(1.2); box-shadow: 0 0 15px var(--theme-glow); }
         .btn-neon:disabled { opacity: 0.5; cursor: not-allowed; }
         
         /* Leaderboard Tables */
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; }
-        th { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); }
+        th { font-family: 'Orbitron', sans-serif; color: var(--theme-color); }
+        .leaderboard-icon { width: 32px; height: 32px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid var(--theme-color); }
         .locked-msg { text-align: center; padding: 2rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif; }
         .status-msg { margin-top: 1rem; text-align: center; font-size: 0.85rem; min-height: 20px;}
     </style>
 </head>
-<body>
+<body class="theme-default">
 
     <header>
         <div class="logo-area">
-            <img src="Logo.jpg" alt="InnovateX Logo" class="logo-img" onerror="this.style.display='none'">
+            <img src="Logo.png" alt="InnovateX Logo" class="logo-img" onerror="this.style.display='none'">
             <h1>INNOVATEX</h1>
-            <img src="Harvest-InnovateX-Transparent.png" alt="Harvest Logo" class="harvest-logo" onerror="this.style.display='none'">
+            <img src="HIS.png" alt="Harvest Logo" class="harvest-logo" onerror="this.style.display='none'">
         </div>
         <p class="tagline">WHERE IDEAS BECOME REALITY</p>
     </header>
@@ -190,7 +231,10 @@
         <!-- TAB 1: PARTICIPANT SUBMISSION -->
         <div id="submit" class="tab-content active">
             <div class="panel">
-                <h2>PROJECT SUBMISSION PORTAL</h2>
+                <h2>
+                    <img id="submitLogoBadge" class="domain-badge-img" src="" alt="Domain Logo">
+                    <span>PROJECT SUBMISSION PORTAL</span>
+                </h2>
                 <form id="submissionForm" onsubmit="handleSubmission(event)">
                     <div class="form-group">
                         <label>Team Name / Solo Participant Name *</label>
@@ -202,8 +246,8 @@
                     </div>
                     <div class="form-group">
                         <label>Select Domain *</label>
-                        <select id="domainSelect" required>
-                            <option value="" disabled selected>-- Choose Your Track --</option>
+                        <select id="domainSelect" required onchange="applyDomainTheme(this.value)">
+                            <option value="" selected>-- Choose Your Track --</option>
                             <option value="Binary Blitz">Binary Blitz</option>
                             <option value="Canvas Clash">Canvas Clash</option>
                             <option value="Scene Sync">Scene Sync</option>
@@ -242,11 +286,14 @@
             </div>
 
             <div class="panel" id="judgeWorkspace" style="display: none;">
-                <h2>JUDGE SCORING CONSOLE</h2>
+                <h2>
+                    <img id="judgeLogoBadge" class="domain-badge-img" src="" alt="Domain Logo">
+                    <span>JUDGE SCORING CONSOLE</span>
+                </h2>
                 <div class="form-group">
                     <label>Select Domain to Evaluate</label>
-                    <select id="judgeDomain" onchange="loadTeamsForJudge()">
-                        <option value="" disabled selected>-- Select Domain --</option>
+                    <select id="judgeDomain" onchange="applyDomainTheme(this.value); loadTeamsForJudge();">
+                        <option value="" selected>-- Select Domain --</option>
                         <option value="Binary Blitz">Binary Blitz</option>
                         <option value="Canvas Clash">Canvas Clash</option>
                         <option value="Scene Sync">Scene Sync</option>
@@ -260,7 +307,7 @@
                     </select>
                 </div>
                 
-                <h3 style="font-family: 'Orbitron'; color: var(--neon-cyan); font-size: 1rem; margin: 1.5rem 0 1rem 0;">EVALUATION CRITERIA</h3>
+                <h3 style="font-family: 'Orbitron'; color: var(--theme-color); font-size: 1rem; margin: 1.5rem 0 1rem 0; transition: color 0.5s ease;">EVALUATION CRITERIA</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group"><label>Problem Solving [25]</label><input type="number" id="crit1" max="25" min="0" value="0"></div>
                     <div class="form-group"><label>Creativity & Innovation [25]</label><input type="number" id="crit2" max="25" min="0" value="0"></div>
@@ -275,22 +322,97 @@
 
         <!-- TAB 3: LEADERBOARDS -->
         <div id="results" class="tab-content">
+            <!-- LEADERBOARD THEME DROPDOWN -->
+            <div class="panel" style="padding: 1.5rem; text-align: center;">
+                <div class="form-group" style="max-width: 450px; margin: 0 auto;">
+                    <label style="font-family: 'Orbitron'; font-size: 0.95rem; color: var(--theme-color); margin-bottom: 0.8rem;">
+                        🎨 FILTER LEADERBOARD & THEME
+                    </label>
+                    <select id="leaderboardDomainSelect" onchange="applyDomainTheme(this.value); filterLeaderboardView(this.value);">
+                        <option value="ALL" selected>-- Select Domain --</option>
+                        <option value="Binary Blitz">Binary Blitz</option>
+                        <option value="Canvas Clash">Canvas Clash</option>
+                        <option value="Scene Sync">Scene Sync</option>
+                        <option value="Capital Core">Capital Core</option>
+                    </select>
+                </div>
+            </div>
+
             <div id="lockedResults" class="panel">
                 <h2>LEADERBOARD RANKINGS</h2>
                 <div class="locked-msg">[🔒 LEADERBOARD LOCKED]<br>Rankings will unlock when the countdown hits zero.</div>
             </div>
+
             <div id="unlockedResults" style="display: none;">
-                <div class="panel"><h2>🏆 BINARY BLITZ</h2><div id="leaderboard-Binary"></div></div>
-                <div class="panel"><h2>🏆 CANVAS CLASH</h2><div id="leaderboard-Canvas"></div></div>
-                <div class="panel"><h2>🏆 SCENE SYNC</h2><div id="leaderboard-Scene"></div></div>
-                <div class="panel"><h2>🏆 CAPITAL CORE</h2><div id="leaderboard-Capital"></div></div>
+                <div class="panel leaderboard-card" data-domain="Binary Blitz">
+                    <h2><img src="BB.png" class="leaderboard-icon" alt="BB"> BINARY BLITZ</h2>
+                    <div id="leaderboard-Binary"></div>
+                </div>
+                <div class="panel leaderboard-card" data-domain="Canvas Clash">
+                    <h2><img src="CCL.png" class="leaderboard-icon" alt="CCL"> CANVAS CLASH</h2>
+                    <div id="leaderboard-Canvas"></div>
+                </div>
+                <div class="panel leaderboard-card" data-domain="Scene Sync">
+                    <h2><img src="SS.png" class="leaderboard-icon" alt="SS"> SCENE SYNC</h2>
+                    <div id="leaderboard-Scene"></div>
+                </div>
+                <div class="panel leaderboard-card" data-domain="Capital Core">
+                    <h2><img src="CCO.png" class="leaderboard-icon" alt="CCO"> CAPITAL CORE</h2>
+                    <div id="leaderboard-Capital"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgKyR8EfFD18GKWV-O2I3VFospk8aMdux9l_ymC_UNShlo1cbRd3hAty2phpuOOJ9DXg/exec";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3-p6m1OFZilyM4qgqLfJpmvwirYb69oqo-74AFaVlZA5OAMvKLPMn28ck_JdDL89Q4w/exec";
         const TARGET_DATE = new Date("Aug 10, 2026 15:00:00").getTime(); 
+
+        // Logo & Theme Mapping Configuration (.png formats)
+        const DOMAIN_MAP = {
+            "Binary Blitz": { themeClass: 'theme-binary', logo: 'BB.png' },
+            "Canvas Clash": { themeClass: 'theme-canvas', logo: 'CCL.png' },
+            "Scene Sync": { themeClass: 'theme-scene', logo: 'SS.png' },
+            "Capital Core": { themeClass: 'theme-capital', logo: 'CCO.png' }
+        };
+
+        // Dynamic Theme Switcher
+        function applyDomainTheme(domain) {
+            // Remove previous theme classes
+            document.body.classList.remove('theme-binary', 'theme-canvas', 'theme-scene', 'theme-capital');
+            
+            const submitBadge = document.getElementById('submitLogoBadge');
+            const judgeBadge = document.getElementById('judgeLogoBadge');
+
+            if (DOMAIN_MAP[domain]) {
+                document.body.classList.add(DOMAIN_MAP[domain].themeClass);
+                
+                if (submitBadge) {
+                    submitBadge.src = DOMAIN_MAP[domain].logo;
+                    submitBadge.style.display = 'inline-block';
+                }
+                if (judgeBadge) {
+                    judgeBadge.src = DOMAIN_MAP[domain].logo;
+                    judgeBadge.style.display = 'inline-block';
+                }
+            } else {
+                // Reverts back to Default Theme
+                if (submitBadge) submitBadge.style.display = 'none';
+                if (judgeBadge) judgeBadge.style.display = 'none';
+            }
+        }
+
+        // Leaderboard Visibility Filtering
+        function filterLeaderboardView(selectedDomain) {
+            const cards = document.querySelectorAll('.leaderboard-card');
+            cards.forEach(card => {
+                if (!selectedDomain || selectedDomain === "ALL" || card.getAttribute('data-domain') === selectedDomain) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
 
         // Countdown Timer Logic
         function updateCountdown() {
@@ -321,6 +443,15 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
+
+            // Apply theme based on currently selected dropdown in active tab
+            if (tabId === 'submit') {
+                applyDomainTheme(document.getElementById('domainSelect').value);
+            } else if (tabId === 'judge') {
+                applyDomainTheme(document.getElementById('judgeDomain').value);
+            } else if (tabId === 'results') {
+                applyDomainTheme(document.getElementById('leaderboardDomainSelect').value);
+            }
         }
 
         function checkLeaderboardUnlock() {
@@ -357,7 +488,7 @@
 
             const file = fileInput.files[0];
             btn.disabled = true;
-            status.style.color = "var(--neon-cyan)";
+            status.style.color = "var(--theme-color)";
             status.innerText = "Encoding file & transmitting...";
 
             const reader = new FileReader();
@@ -387,6 +518,7 @@
                         document.getElementById('submissionForm').reset();
                         document.getElementById('fileLabelText').innerText = "📁 SELECT PROJECT ARCHIVE OR CODE FILE";
                         document.getElementById('fileLabelText').classList.remove('file-chosen');
+                        applyDomainTheme("");
                     } else {
                         throw new Error(data.error || "Server error");
                     }
@@ -414,7 +546,7 @@
             if(!pin) { errorEl.innerText = "Passcode required."; return; }
             
             btn.disabled = true;
-            errorEl.style.color = "var(--neon-cyan)";
+            errorEl.style.color = "var(--theme-color)";
             errorEl.innerText = "Verifying...";
 
             try {
@@ -444,6 +576,11 @@
             const select = document.getElementById('evalParticipant');
             select.innerHTML = '<option value="" disabled selected>Loading teams...</option>';
             
+            if (!domain) {
+                select.innerHTML = '<option value="">-- Waiting for Domain Selection --</option>';
+                return;
+            }
+
             try {
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getTeams&domain=${encodeURIComponent(domain)}`);
                 const data = await response.json();
@@ -481,7 +618,7 @@
             };
 
             btn.disabled = true;
-            status.style.color = "var(--neon-cyan)";
+            status.style.color = "var(--theme-color)";
             status.innerText = "Saving scores...";
 
             try {
@@ -532,7 +669,7 @@
             let html = `<table><thead><tr><th>Rank</th><th>Team</th><th>Score</th></tr></thead><tbody>`;
             items.forEach((row, index) => {
                 let crown = index === 0 ? "👑 " : "";
-                html += `<tr><td>#${index+1}</td><td>${crown}${row.team}</td><td style="color:var(--neon-cyan);">${row.score}/100</td></tr>`;
+                html += `<tr><td>#${index+1}</td><td>${crown}${row.team}</td><td style="color:var(--theme-color); font-weight:600;">${row.score}/100</td></tr>`;
             });
             html += `</tbody></table>`;
             container.innerHTML = html;

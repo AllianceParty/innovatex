@@ -3,33 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Harvest InnovateX</title>
+    <title>InnovateX</title>
     <link rel="icon" href="Logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-dark: #040609;
-            --aero-glass-bg: rgba(14, 18, 28, 0.72);
+            --aero-glass-bg: rgba(14, 18, 28, 0.78);
             --aero-glass-surface: rgba(255, 255, 255, 0.05);
-            --aero-glass-border: rgba(6, 182, 212, 0.3);
-            --aero-glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(6, 182, 212, 0) 100%);
+            --aero-glass-border: rgba(6, 182, 212, 0.4);
+            --aero-glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(6, 182, 212, 0) 100%);
             
-            /* Cyan to Red Core Palette */
-            --primary-accent: #06b6d4;   /* Cyan */
-            --secondary-accent: #ef4444; /* Red */
+            --primary-accent: #06b6d4;   
+            --secondary-accent: #ef4444; 
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --radius-main: 20px;
-            --radius-btn: 12px;
 
-            /* Event App Theme Colors */
-            --binary-blitz-accent: #06b6d4;  /* Cyan */
-            --canvas-clash-accent: #f59e0b;  /* Yellow */
-            --scene-sync-accent: #ef4444;    /* Red */
-            --capital-core-accent: #10b981;  /* Emerald */
+            --radius-main: 8px;
+            --radius-btn: 4px;
+            --radius-panels: 12px;
+
+            /* Apple-grade smooth deceleration curve */
+            --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+            --binary-blitz-accent: #06b6d4;  
+            --canvas-clash-accent: #f59e0b;  
+            --scene-sync-accent: #ef4444;    
+            --capital-core-accent: #10b981;  
         }
 
-        * {
+        @media (pointer: fine) {
+            *, *::before, *::after {
+                cursor: none !important;
+            }
+        }
+
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -37,697 +46,337 @@
             -webkit-user-select: none;
         }
 
-        /* Professional Minimalist Custom Cursor */
-        body, html {
-            cursor: none !important;
-        }
-        button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn, input, select {
-            cursor: none !important;
-        }
-
-        #customCursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 24px;
-            height: 24px;
-            border: 1.5px solid rgba(6, 182, 212, 0.85);
-            background: rgba(6, 182, 212, 0.04);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: width 0.15s ease, height 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-            z-index: 9999999;
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
-        }
-        #customCursorDot {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 5px;
-            background: var(--secondary-accent);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 10000000;
-            box-shadow: 0 0 8px var(--secondary-accent);
-        }
-        body.cursor-hover #customCursor {
-            width: 38px;
-            height: 38px;
-            border-color: var(--secondary-accent);
-            background: rgba(239, 68, 68, 0.08);
-        }
-
-        /* Custom Scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(10, 15, 30, 0.5);
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-accent);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-accent);
-        }
-
         body, html {
             width: 100%;
-            height: 100%;
+            height: 100dvh;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-primary);
         }
 
-        #bootScreen {
-            position: fixed;
-            inset: 0;
-            background: #020305;
-            z-index: 999999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-        #bootScreen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .boot-spinner {
-            width: 44px;
-            height: 44px;
-            border: 3px solid rgba(6, 182, 212, 0.2);
-            border-top-color: var(--primary-accent);
-            border-right-color: var(--secondary-accent);
+        /* Smooth Apple-grade Cursor */
+        #customCursor {
+            position: fixed; top: 0; left: 0;
+            width: 28px; height: 28px;
+            border: 2px solid var(--primary-accent);
+            background: rgba(6, 182, 212, 0.06);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 16px;
+            pointer-events: none;
+            transform: translate3d(-50%, -50%, 0);
+            transition: width 0.3s var(--apple-ease), 
+                        height 0.3s var(--apple-ease), 
+                        border-color 0.2s ease, background-color 0.2s ease;
+            z-index: 9999999;
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        #customCursorDot {
+            position: fixed; top: 0; left: 0;
+            width: 6px; height: 6px;
+            background: var(--secondary-accent); 
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate3d(-50%, -50%, 0);
+            z-index: 10000000;
+            box-shadow: 0 0 8px var(--secondary-accent);
         }
-        .boot-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--text-primary);
-            text-shadow: 0 0 15px var(--primary-accent);
+        body.cursor-hover #customCursor {
+            width: 42px; height: 42px;
+            border-color: var(--secondary-accent);
+            background: rgba(239, 68, 68, 0.12);
+            box-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
+        }
+        
+        body.booting #customCursor, 
+        body.booting #customCursorDot {
+            display: none !important;
         }
 
+        @media (pointer: coarse) {
+            #customCursor, #customCursorDot { display: none !important; }
+            * { cursor: auto !important; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(10, 15, 30, 0.5); border-radius: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-accent); border-radius: 8px; }
+
+        #bootScreen {
+            position: fixed; inset: 0; background: #020305; z-index: 999999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s var(--apple-ease), visibility 0.6s var(--apple-ease);
+        }
+        #bootScreen.fade-out { opacity: 0; visibility: hidden; }
+        
+        .boot-spinner {
+            width: 46px; height: 46px;
+            border: 3px solid rgba(6, 182, 212, 0.2);
+            border-top-color: var(--primary-accent); border-right-color: var(--secondary-accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .boot-title {
+            font-size: 1.15rem; font-weight: 700; letter-spacing: 2.5px;
+            color: var(--text-primary); text-shadow: 0 0 20px var(--primary-accent);
+            animation: pulseText 1.4s ease-in-out infinite alternate;
+        }
+        @keyframes pulseText { from { opacity: 0.6; transform: scale(0.98); } to { opacity: 1; transform: scale(1.02); } }
+
         #wallpaperCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            pointer-events: auto;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: 1; pointer-events: auto;
         }
 
         #workspace {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            z-index: 2;
-            overflow: hidden;
-            pointer-events: none;
+            position: relative; width: 100vw; height: 100dvh; z-index: 2; overflow: hidden; pointer-events: none;
         }
-        #workspace > * {
-            pointer-events: auto;
-        }
+        #workspace > * { pointer-events: auto; }
 
         .wallpaper-logo-mount {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 210px;
-            height: 280px;
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--aero-glass-border);
-            border-radius: 24px;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.15);
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 210px; height: 280px; background: var(--aero-glass-bg);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--aero-glass-border); border-radius: var(--radius-panels);
+            z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            transition: transform 0.4s var(--apple-ease), box-shadow 0.4s var(--apple-ease);
+        }
+        .wallpaper-logo-mount:hover {
+            transform: translateY(calc(-50% - 4px)) scale(1.015);
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.8), 0 0 22px rgba(6, 182, 212, 0.25);
         }
         .wallpaper-logo-mount::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            background: var(--aero-glass-shine);
-            pointer-events: none;
+            content: ''; position: absolute; inset: 0; border-radius: var(--radius-panels);
+            background: var(--aero-glass-shine); pointer-events: none;
         }
         .wallpaper-logo-mount.left { left: 35px; }
         .wallpaper-logo-mount.right { right: 35px; }
 
         .logo-slot {
-            width: 105px;
-            height: 105px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px dashed rgba(6, 182, 212, 0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-            position: relative;
-            overflow: hidden;
+            width: 105px; height: 105px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; margin-bottom: 16px; position: relative;
         }
         .logo-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 85%; height: 85%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.6));
+            transition: transform 0.3s var(--apple-ease);
         }
+        .logo-slot:hover img { transform: scale(1.06); }
         .logo-slot i {
-            font-size: 2rem;
-            color: var(--primary-accent);
-            text-shadow: 0 0 12px var(--primary-accent);
+            font-size: 2.5rem; color: var(--primary-accent); filter: drop-shadow(0 0 15px var(--primary-accent));
         }
         .logo-label {
-            font-size: 0.88rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
-            text-align: center;
+            font-size: 0.88rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; color: #fff; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); text-align: center;
         }
-        .logo-subtext {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            text-align: center;
-        }
+        .logo-subtext { font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px; text-align: center; }
 
-        /* Dynamic Island */
         #dynamicIsland {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 60px;
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--aero-glass-border);
-            border-radius: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 1000;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 60px; background: var(--aero-glass-bg);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--aero-glass-border); border-radius: var(--radius-panels);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+            z-index: 1000; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.25);
+            transition: opacity 0.4s var(--apple-ease), transform 0.4s var(--apple-ease);
         }
         #dynamicIsland::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 34px;
-            background: var(--aero-glass-shine);
-            pointer-events: none;
+            content: ''; position: absolute; inset: 0; border-radius: var(--radius-panels);
+            background: var(--aero-glass-shine); pointer-events: none;
         }
-        .island-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 2;
-        }
-        .island-logo-slot {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px dashed rgba(6, 182, 212, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .island-logo-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .island-logo-slot i {
-            font-size: 1rem;
-            color: var(--primary-accent);
-        }
+        .island-section { display: flex; align-items: center; gap: 12px; z-index: 2; }
+        .island-logo-slot { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .island-logo-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.5)); }
         .island-brand {
-            font-weight: 800;
-            font-size: 0.95rem;
-            color: #fff;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+            font-weight: 800; font-size: 0.95rem; color: #fff; letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 8px; text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
         }
         .island-time {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #e2e8f0;
-            font-family: 'Courier New', Courier, monospace;
-            text-shadow: 0 0 8px var(--primary-accent);
+            font-size: 0.9rem; font-weight: 700; color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace; text-shadow: 0 0 8px var(--primary-accent);
         }
 
         #taskbar {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--aero-glass-border);
-            padding: 10px 16px;
-            border-radius: 26px;
-            display: flex;
-            gap: 12px;
-            z-index: 99999;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-            max-width: 95vw;
+            position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+            background: var(--aero-glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--aero-glass-border); padding: 10px 18px; border-radius: var(--radius-panels);
+            display: flex; gap: 14px; z-index: 99999; box-shadow: 0 15px 45px rgba(0, 0, 0, 0.65), inset 0 1px 3px rgba(255, 255, 255, 0.25);
+            max-width: 95vw; transition: opacity 0.4s var(--apple-ease), transform 0.4s var(--apple-ease);
         }
+        
         .taskbar-app {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            flex-shrink: 0;
-            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            width: 50px; height: 50px; border-radius: 50%; background: transparent;
+            display: flex; justify-content: center; align-items: center; position: relative;
+            flex-shrink: 0; transition: transform 0.35s var(--apple-ease);
         }
         .custom-taskbar-icon {
-            width: 58%;
-            height: 58%;
-            object-fit: contain;
+            width: 100%; height: 100%; object-fit: contain; border-radius: 50%; flex-shrink: 0;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5)); transition: filter 0.2s ease, transform 0.2s ease;
         }
+        .taskbar-app:hover { transform: translateY(-6px) scale(1.08); }
+        .taskbar-app:hover .custom-taskbar-icon { filter: drop-shadow(0 0 16px currentColor); }
+        
+        .taskbar-app.active::after {
+            content: ''; position: absolute; bottom: -8px;
+            width: 20px; height: 3px; background: currentColor;
+            border-radius: 2px; box-shadow: 0 0 10px currentColor;
+            animation: indicatorPulse 1.8s ease-in-out infinite alternate;
+        }
+        @keyframes indicatorPulse { from { opacity: 0.7; transform: scaleX(0.8); } to { opacity: 1; transform: scaleX(1.1); box-shadow: 0 0 14px currentColor; } }
+
+        .taskbar-app.minimized::after {
+            content: ''; position: absolute; bottom: -8px;
+            width: 6px; height: 3px; background: currentColor;
+            border-radius: 2px; opacity: 0.6;
+        }
+
         .taskbar-app.app-binary { color: var(--binary-blitz-accent); }
         .taskbar-app.app-canvas { color: var(--canvas-clash-accent); }
         .taskbar-app.app-scene { color: var(--scene-sync-accent); }
         .taskbar-app.app-capital { color: var(--capital-core-accent); }
-        .taskbar-app.app-grey { color: var(--text-secondary); font-size: 1.2rem; }
+        .taskbar-app.app-grey { color: var(--text-secondary); font-size: 1.5rem; }
+        .taskbar-app.app-grey:hover i { filter: drop-shadow(0 0 16px currentColor); }
 
-        .taskbar-app:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 20px currentColor;
-        }
-        .taskbar-app.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            width: 14px;
-            height: 3px;
-            background: currentColor;
-            border-radius: 2px;
-            box-shadow: 0 0 8px currentColor;
-        }
-
+        /* Professional Apple Unboxing Transition Windows */
         .os-window {
-            position: absolute;
-            background: rgba(10, 14, 22, 0.88);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--aero-glass-border);
-            border-radius: var(--radius-main);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            opacity: 0;
-            transform: translate3d(0, 0, 0) scale(0.95);
-            transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-            touch-action: none;
+            position: absolute; background: rgba(10, 14, 22, 0.88);
+            backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+            border: 1px solid var(--aero-glass-border); border-radius: var(--radius-main);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+            display: flex; flex-direction: column; overflow: hidden;
+            opacity: 0; transform: translate3d(0, 18px, 0) scale(0.95);
+            transition: opacity 0.35s var(--apple-ease), transform 0.35s var(--apple-ease), width 0.3s var(--apple-ease), height 0.3s var(--apple-ease);
+            touch-action: none; --app-theme: var(--primary-accent);
         }
-        .os-window[data-app-id="binary_blitz"] { border-color: rgba(6, 182, 212, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(6, 182, 212, 0.15); }
-        .os-window[data-app-id="canvas_clash"] { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(245, 158, 11, 0.15); }
-        .os-window[data-app-id="scene_sync"] { border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(239, 68, 68, 0.15); }
-        .os-window[data-app-id="capital_core"] { border-color: rgba(16, 185, 129, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.75), 0 0 25px rgba(16, 185, 129, 0.15); }
+        .os-window[data-app-id="binary_blitz"] { border-color: rgba(6, 182, 212, 0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 35px rgba(6, 182, 212, 0.18); }
+        .os-window[data-app-id="canvas_clash"] { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 35px rgba(245, 158, 11, 0.18); }
+        .os-window[data-app-id="scene_sync"] { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 35px rgba(239, 68, 68, 0.18); }
+        .os-window[data-app-id="capital_core"] { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 35px rgba(16, 185, 129, 0.18); }
+        .os-window[data-app-id="trailer"], 
+        .os-window[data-app-id="credits"] { border-color: rgba(148, 163, 184, 0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 35px rgba(148, 163, 184, 0.18); }
 
         .os-window.open { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-        .os-window.minimized {
-            opacity: 0 !important;
-            transform: translate3d(0, 30px, 0) scale(0.9) !important;
-            pointer-events: none !important;
-        }
+        .os-window.minimized { opacity: 0 !important; transform: translate3d(0, 30px, 0) scale(0.9) !important; pointer-events: none !important; }
 
         .window-header {
-            height: 48px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.4) 100%);
+            height: 46px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.4) 100%);
             border-bottom: 1px solid var(--aero-glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            cursor: move;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 18px;
         }
-        .window-title {
-            font-size: 0.94rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .window-title img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-        .window-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .window-btn {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            border: none;
-            transition: transform 0.15s ease;
-        }
-        .window-btn:hover { transform: scale(1.2); }
+        .window-title { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        .window-title img { width: 18px; height: 18px; object-fit: contain; border-radius: var(--radius-btn); }
+        .window-controls { display: flex; align-items: center; gap: 8px; }
+        .window-btn { width: 12px; height: 12px; border-radius: 50%; border: none; transition: transform 0.2s var(--apple-ease), filter 0.2s ease; }
+        .window-btn:hover { transform: scale(1.2); filter: brightness(1.2); }
         .btn-minimize { background: #ffbd2e; box-shadow: 0 0 6px #ffbd2e; }
         .btn-maximize { background: #27c93f; box-shadow: 0 0 6px #27c93f; }
         .btn-close { background: #ff5f56; box-shadow: 0 0 6px #ff5f56; }
 
-        .window-body {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            color: var(--text-primary);
-        }
+        .window-body { flex: 1; padding: 24px; overflow-y: auto; overflow-x: hidden; color: var(--text-primary); }
+        .window-body::-webkit-scrollbar { width: 6px; }
+        .window-body::-webkit-scrollbar-track { background: rgba(10, 15, 30, 0.5); border-radius: 8px; }
+        .window-body::-webkit-scrollbar-thumb { background: var(--app-theme); border-radius: 8px; }
 
-        /* Event Header & Contact Info */
         .app-top-banner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 20px 24px;
-            margin-bottom: 22px;
-            gap: 24px;
-            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.06);
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-panels); padding: 18px 22px; margin-bottom: 20px; gap: 20px; box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.06);
         }
-        .compact-logo-mount {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            flex: 1;
-            min-width: 0;
-        }
+        .compact-logo-mount { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
+        
         .compact-logo-slot {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px dashed currentColor;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px currentColor;
-            overflow: hidden;
-            flex-shrink: 0;
+            width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: transparent;
         }
         .compact-event-icon {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
+            width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 0 16px currentColor);
+            transition: transform 0.3s var(--apple-ease);
         }
-        .compact-logo-text {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            min-width: 0;
-        }
-        .compact-logo-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .compact-logo-sub {
-            font-size: 0.84rem;
-            color: var(--text-secondary);
-        }
+        .compact-logo-slot:hover .compact-event-icon { transform: scale(1.06); }
+        .compact-logo-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .compact-logo-title { font-size: 1.2rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+        .compact-logo-sub { font-size: 0.82rem; color: var(--text-secondary); }
         
         .event-head-card {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            text-align: right;
-            padding-left: 24px;
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            flex-shrink: 0;
-            gap: 5px;
-            min-width: 190px;
+            display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+            padding-left: 20px; border-left: 1px solid rgba(255, 255, 255, 0.12); flex-shrink: 0; gap: 4px; min-width: 180px;
         }
-        .head-role-label {
-            font-size: 0.74rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-        .head-name {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 2px;
-        }
+        .head-role-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--text-secondary); text-transform: uppercase; }
+        .head-name { font-size: 1rem; font-weight: 700; color: #fff; margin-top: 2px; }
         .head-contact {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 3px;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.86rem; color: var(--text-secondary); display: flex; align-items: center; gap: 7px;
+            margin-top: 2px; background: rgba(255, 255, 255, 0.04); padding: 4px 9px; border-radius: var(--radius-btn); border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .event-app-container {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-        .event-section {
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 18px 22px;
-            border-radius: 14px;
-        }
-        .event-section h3 {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .event-section p, .event-section ul {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-        .event-section ul { padding-left: 20px; }
-        .event-actions {
-            display: flex;
-            gap: 14px;
-            margin-top: 12px;
-        }
+        .event-app-container { display: flex; flex-direction: column; gap: 16px; }
+        .event-section { background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(255, 255, 255, 0.08); padding: 16px 20px; border-radius: var(--radius-panels); transition: border-color 0.2s ease, transform 0.2s ease; }
+        .event-section:hover { border-color: rgba(255, 255, 255, 0.18); transform: translateY(-1px); }
+        .event-section h3 { font-size: 0.98rem; margin-bottom: 8px; display: flex; align-items: center; gap: 9px; }
+        .event-section p, .event-section ul { font-size: 0.88rem; line-height: 1.55; color: var(--text-secondary); }
+        .event-section ul { padding-left: 18px; }
+        .event-actions { display: flex; gap: 12px; margin-top: 10px; }
         .reg-btn, .brochure-link-btn {
-            flex: 1;
-            padding: 14px 18px;
-            border-radius: var(--radius-btn);
-            text-decoration: none;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.94rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: none;
-            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            flex: 1; padding: 13px 16px; border-radius: var(--radius-btn); text-decoration: none; text-align: center;
+            font-weight: 700; font-size: 0.92rem; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+            border: none; transition: transform 0.25s var(--apple-ease), opacity 0.2s ease, box-shadow 0.25s ease;
         }
-        .brochure-link-btn {
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .reg-btn:hover, .brochure-link-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
+        .brochure-link-btn { background: rgba(255, 255, 255, 0.06); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15); }
+        .reg-btn:hover, .brochure-link-btn:hover { transform: translateY(-2px) scale(1.01); opacity: 0.95; box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
 
         #desktopContextMenu {
-            position: fixed;
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--aero-glass-border);
-            border-radius: 12px;
-            padding: 6px;
-            width: 180px;
-            z-index: 99999;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            position: fixed; background: var(--aero-glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--aero-glass-border);
+            border-radius: var(--radius-panels); padding: 6px; width: 175px; z-index: 99999; display: none; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+            animation: fadeInMenu 0.25s var(--apple-ease) forwards;
         }
+        @keyframes fadeInMenu { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         #desktopContextMenu.visible { display: block; }
-        .menu-item {
-            padding: 9px 12px;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
+        .menu-item { padding: 8px 11px; font-size: 0.84rem; color: var(--text-primary); border-radius: var(--radius-btn); display: flex; align-items: center; gap: 9px; transition: background 0.15s ease; }
+        .menu-item:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
 
+        /* Smooth Apple Modal Popup */
         #judgingPopup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.65);
-            z-index: 1000000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; background: rgba(0, 0, 0, 0.65); z-index: 1000000;
+            display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; 
+            transition: opacity 0.35s var(--apple-ease), visibility 0.35s var(--apple-ease);
         }
         #judgingPopup.show { opacity: 1; visibility: visible; }
         .popup-card {
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
-            border: 1px solid var(--aero-glass-border);
-            border-radius: 24px;
-            padding: 34px;
-            width: 90%;
-            max-width: 440px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-            transform: scale(0.9);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--aero-glass-bg); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); border: 1px solid var(--aero-glass-border);
+            border-radius: var(--radius-panels); padding: 32px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+            transform: scale(0.92) translateY(10px); transition: transform 0.35s var(--apple-ease);
         }
-        #judgingPopup.show .popup-card { transform: scale(1); }
-        .popup-icon {
-            font-size: 3rem;
-            color: var(--primary-accent);
-            margin-bottom: 16px;
-            text-shadow: 0 0 18px var(--primary-accent);
-        }
-        .popup-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
-        .popup-text { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.55; }
+        #judgingPopup.show .popup-card { transform: scale(1) translateY(0); }
+        .popup-icon { font-size: 2.8rem; color: var(--text-secondary); margin-bottom: 14px; filter: drop-shadow(0 0 12px var(--text-secondary)); }
+        .popup-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; color: #fff; }
+        .popup-text { font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
 
-        #notificationContainer {
-            position: fixed;
-            top: 85px;
-            right: 22px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
+        /* Optimized Trailer Container with Native Video & Cursor Fix Overlay */
+        .trailer-container {
+            position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-panels);
+            background: #000; margin-top: 14px; border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
         }
-        .notification-toast {
-            background: var(--aero-glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--aero-glass-border);
-            border-left: 4px solid var(--primary-accent);
-            padding: 12px 16px;
-            border-radius: 10px;
-            min-width: 240px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+        .trailer-container video {
+            width: 100%; height: 100%; object-fit: cover; display: block; border-radius: var(--radius-panels);
+        }
+        .video-cursor-overlay {
+            position: absolute; inset: 0; pointer-events: none; z-index: 5;
         }
 
-        .pdf-embed-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .pdf-embed-frame {
-            width: 100%;
-            height: calc(100% - 36px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 1100px) {
-            .wallpaper-logo-mount { display: none; }
-        }
+        @media (max-width: 1100px) { .wallpaper-logo-mount { display: none; } }
         @media (max-width: 768px) {
-            #dynamicIsland { width: 92vw; height: 56px; padding: 0 14px; }
-            .os-window {
-                width: 96vw !important;
-                height: calc(100vh - 140px) !important;
-                left: 2vw !important;
-                top: 70px !important;
-            }
+            #dynamicIsland { width: 92vw; height: 54px; padding: 0 14px; }
+            .os-window { width: 96vw !important; height: calc(100dvh - 130px) !important; left: 2vw !important; top: 65px !important; }
             .event-actions { flex-direction: column; }
             .reg-btn, .brochure-link-btn { width: 100%; }
-            #taskbar { width: 96vw; padding: 8px; bottom: 12px; overflow-x: auto; }
+            #taskbar { width: 96vw; padding: 8px; bottom: 15px; overflow-x: auto; }
             #taskbar::-webkit-scrollbar { display: none; }
-            .app-top-banner {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 16px;
-            }
-            .event-head-card {
-                align-items: flex-start;
-                text-align: left;
-                padding-left: 0;
-                border-left: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.12);
-                padding-top: 12px;
-                width: 100%;
-            }
+            .app-top-banner { flex-direction: column; align-items: flex-start; padding: 15px; }
+            .event-head-card { align-items: flex-start; text-align: left; padding-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px; width: 100%; }
         }
     </style>
 </head>
-<body>
+<body class="booting">
 
-    <!-- Custom Cursor Elements -->
     <div id="customCursor"></div>
     <div id="customCursorDot"></div>
 
@@ -736,36 +385,32 @@
         <div class="boot-title">STARTING INNOVATEX OS</div>
     </div>
 
-    <!-- Interactable Canvas Wallpaper -->
     <canvas id="wallpaperCanvas"></canvas>
 
     <div id="workspace">
         
-        <!-- School Logo Mount -->
         <div class="wallpaper-logo-mount left" id="schoolLogoMount">
             <div class="logo-slot">
-                <img id="schoolLogoImg" src="HIS.png" alt="School Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img id="schoolLogoImg" src="HIS.png" alt="School Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <i class="fa-solid fa-school" style="display:none;"></i>
             </div>
             <div class="logo-label" id="schoolLogoLabel">Harvest International School</div>
             <div class="logo-subtext">Innovation Campus</div>
         </div>
 
-        <!-- InnovateX Logo Mount -->
         <div class="wallpaper-logo-mount right" id="festLogoMount">
             <div class="logo-slot">
-                <img id="festLogoImg" src="Logo.png" alt="InnovateX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img id="festLogoImg" src="Logo.png" alt="InnovateX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <i class="fa-solid fa-rocket" style="display:none;"></i>
             </div>
-            <div class="logo-label" id="festLogoLabel">InnovateX 2026</div>
-            <div class="logo-subtext"></div>
+            <div class="logo-label" id="festLogoLabel">InnovateX</div>
+            <div class="logo-subtext">Inter School Event</div>
         </div>
 
-        <!-- Dynamic Island -->
         <div id="dynamicIsland">
             <div class="island-section">
                 <div class="island-logo-slot">
-                    <img id="islandLogoImg" src="Logo.png" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img id="islandLogoImg" src="Logo.png" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <i class="fa-solid fa-rocket" style="display:none;"></i>
                 </div>
                 <div class="island-brand" id="islandBrandText">InnovateX</div>
@@ -775,12 +420,8 @@
             </div>
         </div>
 
-        <div id="notificationContainer"></div>
-
-        <!-- Taskbar -->
         <div id="taskbar">
             <div id="taskbarAppsContainer" style="display: flex; gap: 10px; margin: 0 auto; padding-right: 4px;">
-                
                 <div class="taskbar-app app-binary" onclick="toggleApp('binary_blitz')" title="Binary Blitz">
                     <img src="BB.png" alt="Binary" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <i class="fa-solid fa-code" style="display:none;"></i>
@@ -801,22 +442,31 @@
                     <i class="fa-solid fa-coins" style="display:none;"></i>
                 </div>
 
-                <div class="taskbar-app app-grey" onclick="toggleApp('brochure')" title="Brochure"><i class="fa-solid fa-book-open"></i></div>
-                <div class="taskbar-app app-grey" onclick="toggleApp('credits')" title="Credits"><i class="fa-solid fa-award"></i></div>
-                <div class="taskbar-app app-grey" onclick="showPopup()" title="Judging Portal"><i class="fa-solid fa-gavel"></i></div>
+                <div class="taskbar-app app-grey" onclick="toggleApp('trailer')" title="Trailer & Brochure">
+                    <img src="MT.png" alt="Trailer" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-film" style="display:none;"></i>
+                </div>
+                <div class="taskbar-app app-grey" onclick="toggleApp('credits')" title="OS Version / Credits">
+                    <img src="CD.png" alt="Credits" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-circle-info" style="display:none;"></i>
+                </div>
+                <div class="taskbar-app app-grey" id="judgingTaskbarBtn" title="Judging Portal">
+                    <img src="JS.png" alt="Judging" class="custom-taskbar-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fa-solid fa-gavel" style="display:none;"></i>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Judging / Admin Popup -->
-    <div id="judgingPopup">
+    <div id="judgingPopup" onclick="if(event.target === this) hidePopup()">
         <div class="popup-card">
             <i class="fa-solid fa-server popup-icon"></i>
             <h2 class="popup-title">Judging & User Submission Portal</h2>
-            <p class="popup-text">You are about to access the secure administrative and submission portal. Please ensure you have your credentials ready.</p>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <button onclick="window.location.href='judge.html'" class="reg-btn" style="width: 100%; background: var(--primary-accent); color: #fff;">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Redirect Now
+            <p class="popup-text">Secure access restricted to verified event heads and participants.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button onclick="window.location.href='judge.html'" class="reg-btn" style="width: 100%; background: var(--text-secondary); color: #fff;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Authenticate
                 </button>
                 <button onclick="hidePopup()" class="brochure-link-btn" style="width: 100%;">
                     Cancel
@@ -828,174 +478,106 @@
     <!-- Context Menu -->
     <div id="desktopContextMenu">
         <div class="menu-item" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i> Fullscreen</div>
-        <div class="menu-item" onclick="clearAllWindows()"><i class="fa-solid fa-window-minimize"></i> Minimize All</div>
     </div>
 
     <script>
-        /* =========================================================================
-           CENTRALIZED CONFIGURATION & MODIFICATION PORTAL
-           ========================================================================= */
         const OS_CONFIG = {
-            schoolLogo: {
-                imgUrl: "HIS.png",
-                label: "Harvest International School",
-                subtext: "Host Institution"
-            },
-            festLogo: {
-                imgUrl: "Logo.png",
-                title: "InnovateX",
-                subtext: ""
-            },
+            schoolLogo: { imgUrl: "HIS.png", label: "Harvest International School", subtext: "Host Institution" },
+            festLogo: { imgUrl: "Logo.png", title: "InnovateX", subtext: "" },
             events: {
                 binary_blitz: {
-                    title: "Tech → Binary Blitz",
-                    windowTitleIcon: "BB.png",
-                    iconImg: "BB.png",
-                    iconFallback: "fa-code",
-                    accentColor: "var(--binary-blitz-accent)",
-                    headName: "[Event Head Name]",
-                    headContact: "[Contact Number]",
+                    title: "Tech → Binary Blitz", windowTitleIcon: "BB.png", iconImg: "BB.png", iconFallback: "fa-code",
+                    accentColor: "var(--binary-blitz-accent)", headName: "[Event Head Name]", headContact: "[Contact Number]",
                     aboutText: "Binary Blitz is a live, zero-day coding challenge focusing on emerging & future technology (Grades 6-10). Participants solve live problems using any programming language or AI tools, with mandatory GitHub code submissions.",
-                    categories: [
-                        "Grades 6-10 (Junior & Senior Divisions)",
-                        "AI Permitted (Mandatory AI Prompt Log)",
-                        "Device Compulsory & GitHub Repository Required"
-                    ],
-                    samples: [
-                        "Autonomous Delivery Robots: Sensor obstruction detection algorithm.",
-                        "Smart Wi-Fi Channel Selection: Network interference analyzer & router recommendation.",
-                        "Autonomous Drone Charging: Battery optimization and route planner."
-                    ],
-                    pdfUrl: "InnovateX-BinaryBlitz.pdf",
-                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfxnLsfzZ8XxMQdMpGpQvwi0zsUsKIKAY3l6fA95xBiUVN5-w/viewform?usp=dialog"
+                    categories: ["Grades 6-10 (Junior & Senior Divisions)", "AI Permitted (Mandatory AI Prompt Log)", "Device Compulsory & GitHub Repository Required"],
+                    samples: ["Autonomous Delivery Robots: Sensor obstruction detection algorithm.", "Smart Wi-Fi Channel Selection: Network interference analyzer & router recommendation."],
+                    pdfUrl: "InnovateX-BinaryBlitz.pdf", registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfwJn8eTh8U9zixNEEpglGE1LpRB4LkpT8-ksXqPgUGRrseLw/viewform?usp=dialog"
                 },
                 canvas_clash: {
-                    title: "Design → Canvas Clash",
-                    windowTitleIcon: "CCL.png",
-                    iconImg: "CCL.png",
-                    iconFallback: "fa-palette",
-                    accentColor: "var(--canvas-clash-accent)", /* Yellow */
-                    headName: "[Event Head Name]",
-                    headContact: "[Contact Number]",
+                    title: "Design → Canvas Clash", windowTitleIcon: "CCL.png", iconImg: "CCL.png", iconFallback: "fa-palette",
+                    accentColor: "var(--canvas-clash-accent)", headName: "[Event Head Name]", headContact: "[Contact Number]",
                     aboutText: "Canvas Clash is a live zero-day design sprint testing spatial, conceptual, and physical product design using personal digital design software under real-time constraints.",
-                    categories: [
-                        "Category 01 (Grades 6-8 Junior): Future & Fashion Design (Human Only)",
-                        "Category 02 (Grades 9-10 Senior): Fashion & Spatial Design (AI Permitted + Prompt Log)"
-                    ],
-                    samples: [
-                        "Smart Clothing for Changing Weather: Adaptive garments for daily shifts.",
-                        "The AR Museum Experience: Balanced physical artifact and digital overlay.",
-                        "The Lunar Living Unit: Modular multi-use living space for settlements."
-                    ],
-                    pdfUrl: "InnovateX-CanvasClash.pdf",
-                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdqjaYfgVaBByms9EjGsxtA-i_1uu684R2hMTyqgSGSg45MRQ/viewform?usp=dialog"
+                    categories: ["Category 01 (Grades 6-8 Junior): Future & Fashion Design (Human Only)", "Category 02 (Grades 9-10 Senior): Fashion & Spatial Design (AI Permitted)"],
+                    samples: ["Smart Clothing for Changing Weather: Adaptive garments for daily shifts.", "The AR Museum Experience: Balanced physical artifact and digital overlay."],
+                    pdfUrl: "InnovateX-CanvasClash.pdf", registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSf9SFNouUu8Ue-ZdMTMOFySHbKIHOj5GFKolzlhh_H1cAhhdQ/viewform?usp=dialog"
                 },
                 scene_sync: {
-                    title: "Media → Scene Sync",
-                    windowTitleIcon: "SS.png",
-                    iconImg: "SS.png",
-                    iconFallback: "fa-video",
-                    accentColor: "var(--scene-sync-accent)",
-                    headName: "[Event Head Name]",
-                    headContact: "[Contact Number]",
+                    title: "Media → Scene Sync", windowTitleIcon: "SS.png", iconImg: "SS.png", iconFallback: "fa-video",
+                    accentColor: "var(--scene-sync-accent)", headName: "[Event Head Name]", headContact: "[Contact Number]",
                     aboutText: "Scene Sync challenges creators (Grades 8-10) to create, edit, package, and pitch compelling digital media, reels, trailers, and creator economy assets under pressure.",
-                    categories: [
-                        "Digital Content & Creator Economy (Grades 8-10)",
-                        "AI Permitted (Mandatory Prompt Log)",
-                        "Device Compulsory (Use preferred video/design software)"
-                    ],
-                    samples: [
-                        "The 100K Reel: 30-45 second video explaining facial recognition systems.",
-                        "The Night Market Trailer: Cinematic promo created from supplied raw footage.",
-                        "The Click Problem: Thumbnails, title concepts, and opening hooks."
-                    ],
-                    pdfUrl: "InnovateX-SceneSync.pdf",
-                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLScSI01APL7q1_8D0m_Ee4aui6ryT0GSTkk2PgRJi-f4VQlVwQ/viewform?usp=dialog"
+                    categories: ["Digital Content & Creator Economy (Grades 8-10)", "AI Permitted (Mandatory Prompt Log)"],
+                    samples: ["The 100K Reel: 30-45 second video explaining facial recognition systems.", "The Night Market Trailer: Cinematic promo created from supplied raw footage."],
+                    pdfUrl: "InnovateX-SceneSync.pdf", registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe1W_xC0L7wPkEJ-E5CAGdZy6HIe_usEjH0xRj1MEss34AL5Q/viewform?usp=dialog"
                 },
                 capital_core: {
-                    title: "Finance → Capital Core",
-                    windowTitleIcon: "CCO.png",
-                    iconImg: "CCO.png",
-                    iconFallback: "fa-coins",
-                    accentColor: "var(--capital-core-accent)",
-                    headName: "[Event Head Name]",
-                    headContact: "[Contact Number]",
+                    title: "Finance → Capital Core", windowTitleIcon: "CCO.png", iconImg: "CCO.png", iconFallback: "fa-coins",
+                    accentColor: "var(--capital-core-accent)", headName: "[Event Head Name]", headContact: "[Contact Number]",
                     aboutText: "Capital Core is a zero-day business strategy and financial challenge requiring real-world analysis, defensible strategy formulation, and live pitching.",
-                    categories: [
-                        "Category 01 (Grades 6-8 Junior): Business Strategy & Growth (Human Only)",
-                        "Category 02 (Grades 9-10 Senior): Investment & Markets (AI Permitted + Prompt Log)"
-                    ],
-                    samples: [
-                        "The After-4 PM Café: Strategy to boost off-peak weekday afternoon customers.",
-                        "The 5 Lakh Portfolio: Balanced investment model across stocks, bonds, and gold.",
-                        "The 2 Crore Expansion: Venture capital vs business loan strategy analysis."
-                    ],
-                    pdfUrl: "InnovateX-CapitalCore.pdf",
-                    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLScC1ZRVANBSLjv_64uWK5cUlWjtB_tfyuoYSgKkcEQ49_6KqQ/viewform?usp=dialog"
+                    categories: ["Category 01 (Grades 6-8 Junior): Business Strategy & Growth (Human Only)", "Category 02 (Grades 9-10 Senior): Investment & Markets (AI Permitted)"],
+                    samples: ["The After-4 PM Café: Strategy to boost off-peak weekday afternoon customers.", "The 5 Lakh Portfolio: Balanced investment model across stocks, bonds, and gold."],
+                    pdfUrl: "InnovateX-CapitalCore.pdf", registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdphiSfJc693JYzyQ-Rzc1Ld_JxW4hiGPqHW9L64w2T_VdQXA/viewform?usp=dialog"
                 }
             }
         };
 
-        /* Custom Cursor Movement Logic */
-        const cursor = document.getElementById('customCursor');
-        const cursorDot = document.getElementById('customCursorDot');
-        let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-        let cursorCoords = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
-        window.addEventListener('mousemove', (e) => {
-            mousePos.x = e.clientX;
-            mousePos.y = e.clientY;
-            cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-        });
+        if (!isTouchDevice) {
+            const cursor = document.getElementById('customCursor');
+            const cursorDot = document.getElementById('customCursorDot');
+            let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+            let cursorCoords = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
-        function animateCursor() {
-            cursorCoords.x += (mousePos.x - cursorCoords.x) * 0.25;
-            cursorCoords.y += (mousePos.y - cursorCoords.y) * 0.25;
-            cursor.style.transform = `translate(${cursorCoords.x}px, ${cursorCoords.y}px) translate(-50%, -50%)`;
-            requestAnimationFrame(animateCursor);
+            window.addEventListener('mousemove', (e) => {
+                mousePos.x = e.clientX; mousePos.y = e.clientY;
+                cursorDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+            });
+
+            function animateCursor() {
+                cursorCoords.x += (mousePos.x - cursorCoords.x) * 0.55;
+                cursorCoords.y += (mousePos.y - cursorCoords.y) * 0.55;
+                cursor.style.transform = `translate3d(${cursorCoords.x}px, ${cursorCoords.y}px, 0) translate(-50%, -50%)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            document.addEventListener('mouseover', (e) => {
+                if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) document.body.classList.add('cursor-hover');
+            });
+            document.addEventListener('mouseout', (e) => {
+                if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) document.body.classList.remove('cursor-hover');
+            });
         }
-        animateCursor();
-
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) {
-                document.body.classList.add('cursor-hover');
-            }
-        });
-        document.addEventListener('mouseout', (e) => {
-            if (e.target.closest('button, a, .taskbar-app, .window-btn, .menu-item, .reg-btn, .brochure-link-btn')) {
-                document.body.classList.remove('cursor-hover');
-            }
-        });
 
         window.addEventListener('load', () => {
             document.getElementById('schoolLogoImg').src = OS_CONFIG.schoolLogo.imgUrl;
             document.getElementById('schoolLogoLabel').textContent = OS_CONFIG.schoolLogo.label;
-
             document.getElementById('festLogoImg').src = OS_CONFIG.festLogo.imgUrl;
             document.getElementById('festLogoLabel').textContent = OS_CONFIG.festLogo.title;
             document.getElementById('islandLogoImg').src = OS_CONFIG.festLogo.imgUrl;
             document.getElementById('islandBrandText').textContent = OS_CONFIG.festLogo.title;
 
+            const judgingBtn = document.getElementById('judgingTaskbarBtn');
+            if (judgingBtn) {
+                judgingBtn.addEventListener('click', () => {
+                    showPopup();
+                });
+            }
+
             setTimeout(() => {
                 const bootScreen = document.getElementById('bootScreen');
                 if (bootScreen) bootScreen.classList.add('fade-out');
-                setTimeout(showPopup, 1400);
-            }, 300);
+                document.body.classList.remove('booting');
+            }, 1200);
         });
 
-        function showPopup() {
-            document.getElementById('judgingPopup').classList.add('show');
-        }
+        function showPopup() { document.getElementById('judgingPopup').classList.add('show'); }
+        function hidePopup() { document.getElementById('judgingPopup').classList.remove('show'); }
 
-        function hidePopup() {
-            document.getElementById('judgingPopup').classList.remove('show');
-        }
-
-        /* Interactable Canvas Wallpaper */
         const canvas = document.getElementById('wallpaperCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null;
         let particles = [];
-        const mouse = { x: null, y: null, radius: 130 };
+        const mouse = { x: null, y: null, radius: 135 };
 
         function resizeCanvas() {
             if (!canvas) return;
@@ -1005,115 +587,69 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        window.addEventListener('mouseleave', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
         window.addEventListener('click', (e) => {
-            for (let i = 0; i < 8; i++) {
-                particles.push(new Particle(e.clientX, e.clientY, true));
-            }
+            if (particles.length > 200) particles.splice(0, 8); 
+            for (let i = 0; i < 8; i++) particles.push(new Particle(e.clientX, e.clientY, true));
         });
 
         class Particle {
-            constructor(x, y, isBurst = false) {
-                this.reset(x, y, isBurst);
-            }
+            constructor(x, y, isBurst = false) { this.reset(x, y, isBurst); }
             reset(x, y, isBurst) {
                 if (!canvas) return;
                 this.x = x !== undefined ? x : Math.random() * canvas.width;
                 this.y = y !== undefined ? y : Math.random() * canvas.height;
-                
                 if (isBurst) {
                     const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 4 + 1;
+                    const speed = Math.random() * 3.5 + 1;
                     this.vx = Math.cos(angle) * speed;
                     this.vy = Math.sin(angle) * speed;
                 } else {
-                    this.vx = (Math.random() - 0.5) * 0.8;
-                    this.vy = (Math.random() - 0.5) * 0.8;
+                    this.vx = (Math.random() - 0.5) * 0.7;
+                    this.vy = (Math.random() - 0.5) * 0.7;
                 }
-                
                 this.radius = Math.random() * 2 + 1;
-                const colors = ['rgba(6, 182, 212, 0.65)', 'rgba(245, 158, 11, 0.55)', 'rgba(239, 68, 68, 0.5)', 'rgba(16, 185, 129, 0.45)'];
+                const colors = ['rgba(6, 182, 212, 0.6)', 'rgba(239, 68, 68, 0.5)', 'rgba(245, 158, 11, 0.45)', 'rgba(16, 185, 129, 0.4)'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.life = isBurst ? 100 : null;
+                this.life = isBurst ? 90 : null;
             }
             update() {
                 if (!canvas) return;
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.life !== null) {
-                    this.life--;
-                    if (this.life <= 0) this.reset();
-                }
-
+                this.x += this.vx; this.y += this.vy;
+                if (this.life !== null) { this.life--; if (this.life <= 0) this.reset(); }
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
                 if (mouse.x !== null && mouse.y !== null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
+                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
                     let dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < mouse.radius) {
                         let force = (mouse.radius - dist) / mouse.radius;
-                        this.x -= (dx / dist) * force * 1.5;
-                        this.y -= (dy / dist) * force * 1.5;
+                        this.x -= (dx / dist) * force * 1.2;
+                        this.y -= (dy / dist) * force * 1.2;
                     }
                 }
             }
             draw() {
                 if (!ctx) return;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill();
             }
         }
 
-        const particleCount = window.innerWidth < 768 ? 40 : 75;
-        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        for (let i = 0; i < (window.innerWidth < 768 ? 40 : 70); i++) particles.push(new Particle());
 
         function animateWallpaper() {
             if (ctx && canvas) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
+                    particles[i].update(); particles[i].draw();
                     for (let j = i + 1; j < particles.length; j++) {
                         let dx = particles[i].x - particles[j].x;
                         let dy = particles[i].y - particles[j].y;
                         let dist = Math.sqrt(dx * dx + dy * dy);
                         if (dist < 110) {
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 * (1 - dist / 110)})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                if (mouse.x !== null && mouse.y !== null) {
-                    for (let i = 0; i < particles.length; i++) {
-                        let dx = mouse.x - particles[i].x;
-                        let dy = mouse.y - particles[i].y;
-                        let dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 130) {
-                            ctx.beginPath();
-                            ctx.moveTo(mouse.x, mouse.y);
-                            ctx.lineTo(particles[i].x, particles[i].y);
-                            ctx.strokeStyle = `rgba(239, 68, 68, ${0.2 * (1 - dist / 130)})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
+                            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${0.14 * (1 - dist / 110)})`; ctx.lineWidth = 1; ctx.stroke();
                         }
                     }
                 }
@@ -1122,49 +658,23 @@
         }
         animateWallpaper();
 
-        function updateClock() {
+        setInterval(() => {
             const clockEl = document.getElementById('islandClock');
             if (clockEl) clockEl.textContent = new Date().toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        }, 1000);
 
         const contextMenu = document.getElementById('desktopContextMenu');
         window.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             if (contextMenu) {
-                contextMenu.style.top = `${e.clientY}px`;
-                contextMenu.style.left = `${e.clientX}px`;
-                contextMenu.classList.add('visible');
+                contextMenu.style.top = `${e.clientY}px`; contextMenu.style.left = `${e.clientX}px`; contextMenu.classList.add('visible');
             }
         });
-        window.addEventListener('click', () => {
-            if (contextMenu) contextMenu.classList.remove('visible');
-        });
-
-        function triggerNotification(title, msg) {
-            const container = document.getElementById('notificationContainer');
-            if (!container) return;
-            const toast = document.createElement('div');
-            toast.className = 'notification-toast';
-            toast.innerHTML = `
-                <div style="font-weight:700; color:var(--primary-accent); font-size:0.85rem; margin-bottom:3px;">${title}</div>
-                <div style="font-size:0.8rem; color:var(--text-secondary);">${msg}</div>
-            `;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.25s ease';
-                setTimeout(() => toast.remove(), 250);
-            }, 3000);
-        }
+        window.addEventListener('click', () => { if (contextMenu) contextMenu.classList.remove('visible'); });
 
         function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(() => {});
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-            }
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+            else if (document.exitFullscreen) document.exitFullscreen();
         }
 
         function createCoreAppContent(config) {
@@ -1173,7 +683,7 @@
                     <div class="compact-logo-mount">
                         <div class="compact-logo-slot" style="color:${config.accentColor};">
                             <img src="${config.iconImg}" alt="Event Icon" class="compact-event-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <i class="fa-solid ${config.iconFallback}" style="display:none; font-size:1.6rem;"></i>
+                            <i class="fa-solid ${config.iconFallback}" style="display:none; font-size:1.8rem; filter: drop-shadow(0 0 14px currentColor);"></i>
                         </div>
                         <div class="compact-logo-text">
                             <div class="compact-logo-title" style="color:${config.accentColor};">${config.title.split('→')[1] || config.title}</div>
@@ -1186,26 +696,22 @@
                         <span class="head-contact"><i class="fa-solid fa-phone"></i> ${config.headContact}</span>
                     </div>
                 </div>
-
                 <div class="event-app-container">
                     <section class="event-section">
                         <h3 style="color:${config.accentColor};"><i class="fa-solid fa-circle-info"></i> Track Overview & Rules</h3>
                         <p>${config.aboutText}</p>
                     </section>
-                    
                     <section class="event-section">
                         <h3 style="color:${config.accentColor};"><i class="fa-solid fa-layer-group"></i> Key Categories / Divisions</h3>
                         <ul>${config.categories.map(c => `<li>${c}</li>`).join('')}</ul>
                     </section>
-                    
                     <section class="event-section">
                         <h3 style="color:${config.accentColor};"><i class="fa-solid fa-bolt"></i> Sample Zero-Day Briefs</h3>
                         <ul>${config.samples.map(s => `<li>${s}</li>`).join('')}</ul>
                     </section>
-
                     <div class="event-actions">
-                        <button onclick="openBrochurePDF('${config.pdfUrl}')" class="brochure-link-btn">
-                            <i class="fa-solid fa-file-pdf"></i> View Domain PDF
+                        <button onclick="window.open('${config.pdfUrl}', '_blank')" class="brochure-link-btn">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> View Domain PDF
                         </button>
                         <a href="${config.registerUrl}" target="_blank" class="reg-btn" style="background:${config.accentColor}; color:#fff;">
                             <i class="fa-solid fa-pen-to-square"></i> Track Registration
@@ -1220,71 +726,63 @@
             canvas_clash: OS_CONFIG.events.canvas_clash,
             scene_sync: OS_CONFIG.events.scene_sync,
             capital_core: OS_CONFIG.events.capital_core,
-            brochure: {
-                title: "Master Brochure",
-                windowTitleIcon: "Logo.png",
-                iconFallback: "fa-book-open",
+            trailer: {
+                title: "Trailer & Master Brochure",
+                windowTitleIcon: "MT.png",
+                iconFallback: "fa-film",
+                accentColor: "var(--text-secondary)",
                 content: `
-                    <div class="pdf-embed-container">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 4px;">
-                            <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:600;">
-                                <i class="fa-solid fa-file-pdf" style="color:var(--primary-accent);"></i> InnovateX-Master-Brochure.pdf
-                            </span>
-                            <a href="InnovateX-Master-Brochure.pdf" target="_blank" class="brochure-link-btn" style="padding:5px 12px; font-size:0.78rem; width:auto; flex:none;">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open External
-                            </a>
+                    <div class="event-section">
+                        <h3 style="color:var(--text-secondary); display:flex; justify-content:center;">
+                            <i class="fa-solid fa-video"></i> Official InnovateX Trailer
+                        </h3>
+                        <div class="trailer-container">
+                            <video src="custom.mp4" controls autoplay muted loop playsinline></video>
+                            <div class="video-cursor-overlay"></div>
                         </div>
-                        <iframe src="InnovateX-Master-Brochure.pdf" class="pdf-embed-frame" id="brochureIframe"></iframe>
+                    </div>
+                    <div class="event-actions" style="justify-content: center; margin-top: 22px;">
+                        <button onclick="window.open('InnovateX-Master-Brochure.pdf', '_blank')" class="reg-btn" style="background:var(--text-secondary); color:#fff; max-width: 340px;">
+                            <i class="fa-solid fa-file-pdf"></i> Open Master Brochure
+                        </button>
                     </div>
                 `
             },
             credits: {
-                title: "System Credits",
-                windowTitleIcon: "Logo.png",
-                iconFallback: "fa-award",
+                title: "About InnovateX OS",
+                windowTitleIcon: "CD.png",
+                iconFallback: "fa-circle-info",
+                accentColor: "var(--text-secondary)",
                 content: `
-                    <div class="event-section">
-                        <h3 style="color:var(--primary-accent);"><i class="fa-solid fa-laptop-code"></i> Engineering & Design</h3>
-                        <p>Harvest InnovateX OS built with vanilla Web APIs, hardware-accelerated interactable canvas animations, professional custom cursor, fully modular icon bindings, and responsive layout safety constraints.</p>
+                    <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding: 10px;">
+                        <img src="Logo.png" style="width: 90px; height: 90px; margin-bottom: 18px; filter: drop-shadow(0 0 16px rgba(6, 182, 212, 0.4));">
+                        
+                        <h2 style="font-size: 1.7rem; margin-bottom: 4px; color: #fff;">InnovateX OS</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 22px; letter-spacing: 1px;">Version 26.21 (OS Build 2026.1304)</p>
+                        
+                        <div style="text-align: left; background: rgba(255,255,255,0.03); padding: 20px; border-radius: var(--radius-panels); border: 1px solid rgba(255,255,255,0.07); width: 100%; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.55; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                            <p style="color: #fff; font-weight: 600; margin-bottom: 10px;">InnovateX Operating System<br>&copy; 2026 Alliance Group. All rights reserved.</p>
+                            
+                            <p style="margin-bottom: 14px;">The InnovateX Operating System and its user interface are protected by trademark and other pending or existing intellectual property rights globally.</p>
+                            
+                            <p style="margin-bottom: 14px;">Engineered by Alliance Group.</p>
+                        </div>
                     </div>
                 `
             }
         };
 
-        function openBrochurePDF(pdfUrl) {
-            if (!activeWindows['brochure']) {
-                openApp('brochure');
-            } else {
-                restoreApp('brochure');
-            }
-            const iframe = document.getElementById('brochureIframe');
-            if (iframe) {
-                iframe.src = pdfUrl;
-            }
-        }
-
-        let activeWindows = {};
-        let windowStates = {}; 
-        let highestZIndex = 100;
+        let activeWindows = {}; let windowStates = {}; let highestZIndex = 100;
 
         function toggleApp(appId) {
             if (activeWindows[appId]) {
-                if (windowStates[appId] === 'minimized') {
-                    restoreApp(appId);
-                } else if (getTopWindow(appId)) {
-                    minimizeApp(appId);
-                } else {
-                    bringToFront(activeWindows[appId]);
-                }
-            } else {
-                openApp(appId);
-            }
+                if (windowStates[appId] === 'minimized') restoreApp(appId);
+                else if (getTopWindow(appId)) minimizeApp(appId);
+                else bringToFront(activeWindows[appId]);
+            } else { openApp(appId); }
         }
 
-        function getTopWindow(appId) {
-            const win = activeWindows[appId];
-            return win && parseInt(win.style.zIndex || 0, 10) === highestZIndex;
-        }
+        function getTopWindow(appId) { const win = activeWindows[appId]; return win && parseInt(win.style.zIndex || 0, 10) === highestZIndex; }
 
         function openApp(appId) {
             const data = appData[appId];
@@ -1294,23 +792,17 @@
             const win = document.createElement('div');
             win.className = 'os-window';
             win.dataset.appId = appId;
+            win.style.setProperty('--app-theme', data.accentColor || 'var(--primary-accent)');
             
-            // Safe window bounding calculation to prevent crossing Dynamic Island & Taskbar
-            const safeTopMargin = 95;
-            const safeBottomMargin = 100;
-            const maxAllowedHeight = window.innerHeight - (safeTopMargin + safeBottomMargin);
-            const defaultHeight = Math.min(580, maxAllowedHeight);
-            const defaultWidth = Math.min(840, window.innerWidth - 60);
-
+            const defaultHeight = Math.min(600, window.innerHeight - 180);
+            const defaultWidth = Math.min(820, window.innerWidth - 60);
             win.style.width = `${defaultWidth}px`;
             win.style.height = `${defaultHeight}px`;
 
             if (!isMobile) {
                 const offset = (Object.keys(activeWindows).length % 4) * 18;
-                const startTop = safeTopMargin + offset;
-                const startLeft = Math.max(30, (window.innerWidth - defaultWidth) / 2 + offset);
-                win.style.top = `${startTop}px`;
-                win.style.left = `${startLeft}px`;
+                win.style.top = `${90 + offset}px`;
+                win.style.left = `${Math.max(30, (window.innerWidth - defaultWidth) / 2 + offset)}px`;
             }
 
             const winContent = data.content ? data.content : createCoreAppContent(data);
@@ -1320,103 +812,84 @@
 
             win.innerHTML = `
                 <div class="window-header">
-                    <div class="window-title">
-                        ${titleIconHtml} ${data.title}
-                    </div>
+                    <div class="window-title">${titleIconHtml} ${data.title}</div>
                     <div class="window-controls">
-                        <button class="window-btn btn-minimize" title="Minimize"></button>
-                        <button class="window-btn btn-maximize" title="Maximize"></button>
-                        <button class="window-btn btn-close" title="Close"></button>
+                        <button class="window-btn btn-minimize"></button>
+                        <button class="window-btn btn-maximize"></button>
+                        <button class="window-btn btn-close"></button>
                     </div>
                 </div>
                 <div class="window-body">${winContent}</div>
             `;
 
+            win.querySelector('.btn-minimize').addEventListener('click', (e) => { e.stopPropagation(); minimizeApp(appId); });
+            win.querySelector('.btn-maximize').addEventListener('click', (e) => { e.stopPropagation(); toggleMaximizeWindow(appId); });
+            win.querySelector('.btn-close').addEventListener('click', (e) => { e.stopPropagation(); closeApp(appId); });
+
             const header = win.querySelector('.window-header');
-            const minBtn = win.querySelector('.btn-minimize');
-            const maxBtn = win.querySelector('.btn-maximize');
-            const closeBtn = win.querySelector('.btn-close');
-
-            minBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizeApp(appId); });
-            maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximizeWindow(appId); });
-            closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeApp(appId); });
-
             header.addEventListener('mousedown', (e) => initDrag(e, win));
             header.addEventListener('touchstart', (e) => initDrag(e, win), { passive: false });
-
             win.addEventListener('mousedown', () => bringToFront(win));
             win.addEventListener('touchstart', () => bringToFront(win), { passive: true });
 
             document.getElementById('workspace').appendChild(win);
-            activeWindows[appId] = win;
-            windowStates[appId] = 'open';
-
+            activeWindows[appId] = win; windowStates[appId] = 'open';
             requestAnimationFrame(() => win.classList.add('open'));
             updateTaskbarState(appId, 'open');
             bringToFront(win);
         }
 
         function minimizeApp(appId) {
-            const win = activeWindows[appId];
-            if (!win) return;
-            win.classList.add('minimized');
-            windowStates[appId] = 'minimized';
-            updateTaskbarState(appId, 'minimized');
+            const win = activeWindows[appId]; if (!win) return;
+            win.classList.add('minimized'); windowStates[appId] = 'minimized'; updateTaskbarState(appId, 'minimized');
         }
 
         function restoreApp(appId) {
-            const win = activeWindows[appId];
-            if (!win) return;
-            win.classList.remove('minimized');
-            windowStates[appId] = 'open';
-            updateTaskbarState(appId, 'open');
-            bringToFront(win);
+            const win = activeWindows[appId]; if (!win) return;
+            win.classList.remove('minimized'); windowStates[appId] = 'open'; updateTaskbarState(appId, 'open'); bringToFront(win);
         }
 
         function closeApp(appId) {
-            const win = activeWindows[appId];
-            if (!win) return;
+            const win = activeWindows[appId]; if (!win) return;
             if (win.dataset.maximized === "true") restoreWindowDimensions(win);
-
             win.classList.remove('open');
-            setTimeout(() => {
-                win.remove();
-                delete activeWindows[appId];
-                delete windowStates[appId];
-                updateTaskbarState(appId, 'closed');
-            }, 180);
+            document.body.classList.remove('cursor-hover');
+
+            setTimeout(() => { 
+                win.remove(); 
+                delete activeWindows[appId]; 
+                delete windowStates[appId]; 
+                updateTaskbarState(appId, 'closed'); 
+            }, 300);
         }
 
-        function bringToFront(win) {
-            highestZIndex++;
-            win.style.zIndex = highestZIndex;
-        }
+        function bringToFront(win) { highestZIndex++; win.style.zIndex = highestZIndex; }
 
         function updateTaskbarState(appId, state) {
             const taskbarApps = document.querySelectorAll('#taskbarAppsContainer .taskbar-app');
-            const indexMap = { binary_blitz: 0, canvas_clash: 1, scene_sync: 2, capital_core: 3, brochure: 4, credits: 5 };
+            const indexMap = { binary_blitz: 0, canvas_clash: 1, scene_sync: 2, capital_core: 3, trailer: 4, credits: 5 };
             const idx = indexMap[appId];
+            
             if (idx !== undefined && taskbarApps[idx]) {
-                if (state === 'open') taskbarApps[idx].classList.add('active');
-                else if (state === 'closed') taskbarApps[idx].classList.remove('active');
+                const appBtn = taskbarApps[idx];
+                if (state === 'open') {
+                    appBtn.classList.add('active');
+                    appBtn.classList.remove('minimized');
+                } else if (state === 'minimized') {
+                    appBtn.classList.remove('active');
+                    appBtn.classList.add('minimized');
+                } else if (state === 'closed') {
+                    appBtn.classList.remove('active', 'minimized');
+                }
             }
         }
 
-        function clearAllWindows() {
-            Object.keys(activeWindows).forEach(appId => minimizeApp(appId));
-            triggerNotification("Workspace", "All windows minimized.");
-        }
-
         function initDrag(e, win) {
-            if (e.target.closest('.window-controls')) return;
-            if (win.dataset.maximized === "true" || window.innerWidth <= 768) return;
-
+            if (e.target.closest('.window-controls') || win.dataset.maximized === "true" || window.innerWidth <= 768) return;
             bringToFront(win);
-
             let isTouch = e.type === 'touchstart';
             let startX = isTouch ? e.touches[0].clientX : e.clientX;
             let startY = isTouch ? e.touches[0].clientY : e.clientY;
-
             let rect = win.getBoundingClientRect();
             let offsetX = startX - rect.left;
             let offsetY = startY - rect.top;
@@ -1424,72 +897,38 @@
             function onMove(moveEvent) {
                 let currentX = moveEvent.type.startsWith('touch') ? moveEvent.touches[0].clientX : moveEvent.clientX;
                 let currentY = moveEvent.type.startsWith('touch') ? moveEvent.touches[0].clientY : moveEvent.clientY;
-
-                win.style.left = `${currentX - offsetX}px`;
-                win.style.top = `${currentY - offsetY}px`;
+                win.style.left = `${currentX - offsetX}px`; win.style.top = `${currentY - offsetY}px`;
             }
-
             function onEnd() {
-                window.removeEventListener('mousemove', onMove);
-                window.removeEventListener('mouseup', onEnd);
-                window.removeEventListener('touchmove', onMove);
-                window.removeEventListener('touchend', onEnd);
+                window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onEnd);
+                window.removeEventListener('touchmove', onMove); window.removeEventListener('touchend', onEnd);
             }
-
-            if (isTouch) {
-                window.addEventListener('touchmove', onMove, { passive: false });
-                window.addEventListener('touchend', onEnd);
-            } else {
-                window.addEventListener('mousemove', onMove);
-                window.addEventListener('mouseup', onEnd);
-            }
+            if (isTouch) { window.addEventListener('touchmove', onMove, { passive: false }); window.addEventListener('touchend', onEnd); } 
+            else { window.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onEnd); }
         }
 
         function toggleMaximizeWindow(appId) {
-            const win = activeWindows[appId];
-            if (!win) return;
-
-            if (win.dataset.maximized === "true") restoreWindowDimensions(win);
-            else maximizeWindowDimensions(win);
+            const win = activeWindows[appId]; if (!win) return;
+            if (win.dataset.maximized === "true") restoreWindowDimensions(win); else maximizeWindowDimensions(win);
         }
 
         function maximizeWindowDimensions(win) {
-            win.dataset.prevTop = win.style.top || "95px";
-            win.dataset.prevLeft = win.style.left || "100px";
-            win.dataset.prevWidth = win.style.width || "840px";
-            win.dataset.prevHeight = win.style.height || "580px";
-
-            win.style.top = "0px";
-            win.style.left = "0px";
-            win.style.width = "100vw";
-            
+            win.dataset.prevTop = win.style.top || "90px"; win.dataset.prevLeft = win.style.left || "100px";
+            win.dataset.prevWidth = win.style.width || "820px"; win.dataset.prevHeight = win.style.height || "600px";
+            win.style.top = "0px"; win.style.left = "0px"; win.style.width = "100vw";
             const isMobile = window.innerWidth <= 768;
-            win.style.height = isMobile ? "calc(100vh - 80px)" : "100vh";
-            win.style.borderRadius = isMobile ? "var(--radius-main)" : "0px";
-            win.dataset.maximized = "true";
-            
-            bringToFront(win);
-            
-            if (!isMobile) {
-                document.getElementById('taskbar').style.opacity = '0';
-                document.getElementById('taskbar').style.pointerEvents = 'none';
-            }
-            document.getElementById('dynamicIsland').style.opacity = '0';
-            document.getElementById('dynamicIsland').style.pointerEvents = 'none';
+            win.style.height = isMobile ? "calc(100dvh - 75px)" : "100dvh"; win.style.borderRadius = isMobile ? "var(--radius-panels)" : "0px";
+            win.dataset.maximized = "true"; bringToFront(win);
+            if (!isMobile) { document.getElementById('taskbar').style.opacity = '0'; document.getElementById('taskbar').style.pointerEvents = 'none'; }
+            document.getElementById('dynamicIsland').style.opacity = '0'; document.getElementById('dynamicIsland').style.pointerEvents = 'none';
         }
 
         function restoreWindowDimensions(win) {
-            win.style.width = win.dataset.prevWidth || "840px";
-            win.style.height = win.dataset.prevHeight || "580px";
-            win.style.top = win.dataset.prevTop || "95px";
-            win.style.left = win.dataset.prevLeft || "100px";
-            win.style.borderRadius = "var(--radius-main)";
-            win.dataset.maximized = "false";
-
-            document.getElementById('taskbar').style.opacity = '1';
-            document.getElementById('taskbar').style.pointerEvents = 'auto';
-            document.getElementById('dynamicIsland').style.opacity = '1';
-            document.getElementById('dynamicIsland').style.pointerEvents = 'auto';
+            win.style.width = win.dataset.prevWidth || "820px"; win.style.height = win.dataset.prevHeight || "600px";
+            win.style.top = win.dataset.prevTop || "90px"; win.style.left = win.dataset.prevLeft || "100px";
+            win.style.borderRadius = "var(--radius-main)"; win.dataset.maximized = "false";
+            document.getElementById('taskbar').style.opacity = '1'; document.getElementById('taskbar').style.pointerEvents = 'auto';
+            document.getElementById('dynamicIsland').style.opacity = '1'; document.getElementById('dynamicIsland').style.pointerEvents = 'auto';
         }
     </script>
 </body>
